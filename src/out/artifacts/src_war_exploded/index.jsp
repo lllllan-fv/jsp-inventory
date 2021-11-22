@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>$Title$</title>
+    <title>仓库管理系统</title>
 
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -52,7 +52,7 @@
 
         <%-- 标题栏 --%>
         <el-header id="nav-head" height="7vh">
-            <h2>仓库管理系统</h2>
+            <div style="font-size: 4vh; margin: 1vh 0 0 20px">仓库管理系统</div>
         </el-header>
 
         <%-- 套一个布局容器 --%>
@@ -64,11 +64,10 @@
             </el-aside>
 
             <%-- 页面内容 --%>
-            <el-container>
-                <el-main>
+            <el-main>
 
-                </el-main>
-            </el-container>
+                <router-view/>
+            </el-main>
 
         </el-container>
 
@@ -80,21 +79,128 @@
         el: "#indexVue",
         data: {
             current: sessionStorage.getItem("current"),
-            currentActive: this.current == null ? '4-1' : this.current,
+            currentActive: (this.current == null) ? '1-1' : this.current,
+            menuList: [
+                {
+                    index: '1',
+                    icon: 'el-icon-folder-opened',
+                    title: '报表统计',
+                    children: [
+                        {
+                            index: '1-1',
+                            icon: 'el-icon-data-line',
+                            title: '库存查询',
+                        },
+                        {
+                            index: '1-2',
+                            icon: 'el-icon-data-line',
+                            title: '出入库流水账',
+                        },
+                        {
+                            index: '1-3',
+                            icon: 'el-icon-data-line',
+                            title: '收发存汇总',
+                        },
+                    ],
+                },
+                {
+                    index: '2',
+                    icon: 'el-icon-folder-opened',
+                    title: '基础设置',
+                    children: [
+                        {
+                            index: '2-1',
+                            icon: 'el-icon-tickets',
+                            title: '新增仓库',
+                        },
+                        {
+                            index: '2-2',
+                            icon: 'el-icon-tickets',
+                            title: '新增货品类别',
+                        },
+                        {
+                            index: '2-3',
+                            icon: 'el-icon-tickets',
+                            title: '新增货品',
+                        },
+                        {
+                            index: '2-4',
+                            icon: 'el-icon-tickets',
+                            title: '新增供应商',
+                        },
+                        {
+                            index: '2-5',
+                            icon: 'el-icon-tickets',
+                            title: '新增客户',
+                        },
+                    ],
+                },
+                {
+                    index: '3',
+                    icon: 'el-icon-folder-opened',
+                    title: '入库管理',
+                    children: [
+                        {
+                            index: '3-1',
+                            icon: 'el-icon-box',
+                            title: '采购入库',
+                        },
+                        {
+                            index: '3-2',
+                            icon: 'el-icon-box',
+                            title: '退货入库',
+                        },
+                        {
+                            index: '3-3',
+                            icon: 'el-icon-box',
+                            title: '生产入库',
+                        },
+                    ],
+                },
+                {
+                    index: '4',
+                    icon: 'el-icon-folder-opened',
+                    title: '出库管理',
+                    children: [
+                        {
+                            index: '4-1',
+                            icon: 'el-icon-box',
+                            title: '采购出库',
+                        },
+                        {
+                            index: '4-2',
+                            icon: 'el-icon-box',
+                            title: '退货出库',
+                        },
+                        {
+                            index: '4-3',
+                            icon: 'el-icon-box',
+                            title: '消耗出库',
+                        },
+                    ],
+                },
+                {
+                    index: '5',
+                    icon: 'el-icon-folder-opened',
+                    title: '库存管理',
+                    children: [
+                        {
+                            index: '5-1',
+                            icon: 'el-icon-s-marketing',
+                            title: '库存调拨',
+                        },
+                        {
+                            index: '5-2',
+                            icon: 'el-icon-s-marketing',
+                            title: '库存调拨记录',
+                        },
+                    ],
+                },
+            ],
         },
-        methods: {
-            handleOpen: function (key, keyPath) {
-                console.log(key, keyPath);
-            }
-            ,
-            handleClose: function (key, keyPath) {
-                console.log(key, keyPath);
-            }
-        }
-        ,
+        methods: {},
         created: function () {
-
-        }
+        },
     })
 </script>
 
