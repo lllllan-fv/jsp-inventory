@@ -65,8 +65,10 @@
 
             <%-- 页面内容 --%>
             <el-main>
-
-                <router-view/>
+                <iframe
+                        :src="iframeSrc"
+                        style="height:100%;width:100%;border: none">
+                </iframe>
             </el-main>
 
         </el-container>
@@ -78,8 +80,8 @@
     var indexVue = new Vue({
         el: "#indexVue",
         data: {
-            current: sessionStorage.getItem("current"),
-            currentActive: (this.current == null) ? '1-1' : this.current,
+            currentActive: null,
+            iframeSrc: null,
             menuList: [
                 {
                     index: '1',
@@ -90,11 +92,13 @@
                             index: '1-1',
                             icon: 'el-icon-data-line',
                             title: '库存查询',
+                            path: 'view/1.jsp',
                         },
                         {
                             index: '1-2',
                             icon: 'el-icon-data-line',
                             title: '出入库流水账',
+                            path: 'view/2.jsp'
                         },
                         {
                             index: '1-3',
@@ -198,8 +202,26 @@
                 },
             ],
         },
-        methods: {},
+        methods: {
+            menuItemClick: function (item) {
+                console.log(item);
+                this.iframeSrc = item.path;
+            }
+        },
         created: function () {
+            var current = sessionStorage.getItem("current");
+            this.currentActive = (current == null) ? '1-1' : current;
+            current = String(this.currentActive);
+            this.menuList.forEach(function (value) {
+                value.children.forEach(function (child) {
+                    var index = String(child.index);
+                    if (current === index) {
+                        console.log(child.path);
+                        this.iframeSrc = child.path;
+                        console.log(this.iframeSrc);
+                    }
+                })
+            })
         },
     })
 </script>

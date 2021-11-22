@@ -23,12 +23,13 @@
             </template>
 
             <template v-for="child in item.children">
-                <el-menu-item :index="child.index">
+                <el-menu-item :index="child.index"
+                              @click="menuItemClick(child)">
                     <i :class="child.icon"></i>
                     <span slot="title">{{ child.title }}</span>
                 </el-menu-item>
             </template>
         </el-submenu>
     </template>
- 
+
 </el-menu>
