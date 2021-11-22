@@ -60,7 +60,7 @@
 
             <%-- 左侧导航栏 --%>
             <el-aside width="250px">
-                <jsp:include page="view/menu.jsp"></jsp:include>
+                <jsp:include page="view/menu/index.jsp"></jsp:include>
             </el-aside>
 
             <%-- 页面内容 --%>
@@ -78,9 +78,8 @@
 
 <script>
     var pathMap = new Map([
-        ["1-1", "view/1.jsp"],
-        ["1-2", "view/2.jsp"],
-        ["1-3", "view/1.jsp"],
+        ["1-1", "view/report_statistics/inventory_inquiry"],
+        ["1-2", "view/report_statistics/in_and_out_running_account"],
     ]);
     var indexVue = new Vue({
         el: "#indexVue",
@@ -103,11 +102,11 @@
                             icon: 'el-icon-data-line',
                             title: '出入库流水账',
                         },
-                        {
-                            index: '1-3',
-                            icon: 'el-icon-data-line',
-                            title: '收发存汇总',
-                        },
+                        // {
+                        //     index: '1-3',
+                        //     icon: 'el-icon-data-line',
+                        //     title: '收发存汇总',
+                        // },
                     ],
                 },
                 {
@@ -207,7 +206,6 @@
         },
         methods: {
             menuItemClick: function (item) {
-                console.log(item);
                 this.iframeSrc = pathMap.get(item.index);
                 sessionStorage.setItem("current", item.index);
             }
@@ -216,7 +214,7 @@
         },
         beforeMount: function () {
             var current = sessionStorage.getItem("current");
-            this.currentActive = current == null ? "1-3" : current;
+            this.currentActive = current == null ? "1-1" : current;
             this.iframeSrc = pathMap.get(this.currentActive);
         }
     })
