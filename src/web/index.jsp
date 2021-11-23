@@ -80,6 +80,7 @@
     var pathMap = new Map([
         ["1-1", "view/report_statistics/inventory_inquiry"],
         ["1-2", "view/report_statistics/in_and_out_running_account"],
+        ["2-1", "view/setting/add_storehouse"],
     ]);
     var indexVue = new Vue({
         el: "#indexVue",
@@ -102,11 +103,6 @@
                             icon: 'el-icon-data-line',
                             title: '出入库流水账',
                         },
-                        // {
-                        //     index: '1-3',
-                        //     icon: 'el-icon-data-line',
-                        //     title: '收发存汇总',
-                        // },
                     ],
                 },
                 {
