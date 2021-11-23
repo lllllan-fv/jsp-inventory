@@ -74,7 +74,9 @@
         },
         methods: {
             submitForm: function (formName) {
-                this.$refs[formName].validate();
+                this.$refs[formName].validate(function (valid) {
+                    console.log(valid);
+                });
             },
             resetForm: function (formName) {
                 this.$refs[formName].resetFields();

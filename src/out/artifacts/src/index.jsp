@@ -81,6 +81,10 @@
         ["1-1", "view/report_statistics/inventory_inquiry"],
         ["1-2", "view/report_statistics/in_and_out_running_account"],
         ["2-1", "view/setting/add_storehouse"],
+        ["2-2", "view/setting/add_commodity_type"],
+        ["2-3", "view/setting/add_commodity"],
+        ["2-4", "view/setting/add_supplier"],
+        ["2-5", "view/setting/add_customer"],
     ]);
     var indexVue = new Vue({
         el: "#indexVue",

@@ -2,22 +2,20 @@
   Created by IntelliJ IDEA.
   User: lllllan
   Date: 2021/11/23
-  Time: 15:13
+  Time: 18:33
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>add storehouse</title>
+    <title>add commodity</title>
 
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
-    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <!-- 3.4.1 Bootstrap.min.css -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
           integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
-
-    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
             integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
             crossorigin="anonymous"></script>
@@ -34,6 +32,9 @@
     <!-- 2.6.9 vue.min.js -->
     <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.9/vue.min.js"></script>
 
+    <!-- 0.21.1 axios.js -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.min.js"></script>
+
     <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <!-- 引入组件库 -->
@@ -42,34 +43,27 @@
 </head>
 <body>
 
-<div id="addStoreHouseVue">
+<div id="addCommodityVue">
     <jsp:include page="form.jsp"></jsp:include>
 </div>
 
 <script>
-    var addStoreHouseVue = new Vue({
-        el: "#addStoreHouseVue",
+    var addCommodityVue = new Vue({
+        el: '#addCommodityVue',
         data: {
+            options: [
+                {value: '选项1', label: '黄金糕',},
+            ],
             ruleForm: {
+                type: '',
                 name: '',
-                position: '',
-                principal: '',
-                telephone: '',
-                remark: '',
             },
             rules: {
                 name: [
-                    {required: true, message: '请输入仓库名称', trigger: 'blur'},
-                    {min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur'}
-                ],
-                principal: [
-                    {required: true, message: '请输入负责人姓名', trigger: 'blur'},
+                    {required: true, message: '请输入货品名称', trigger: 'blur'},
                     {min: 2, max: 10, message: '长度在 2 到 10 个字符', trigger: 'blur'}
                 ],
-                telephone: [
-                    {required: true, message: '请输入手机号码', trigger: 'blur'},
-                    {min: 11, max: 11, message: '请输入11位手机号码', trigger: 'blur'},
-                ],
+                type: [{required: true, message: '请选择货品类别', trigger: 'change'}],
             },
         },
         methods: {
@@ -83,11 +77,9 @@
             },
         },
         created: function () {
-
         },
         beforeMount: function () {
-
-        }
+        },
     })
 </script>
 
