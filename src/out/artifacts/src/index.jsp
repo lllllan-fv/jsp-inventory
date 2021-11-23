@@ -67,7 +67,7 @@
             <el-main>
                 <iframe
                         :src="iframeSrc"
-                        style="height:100%;width:100%;border: none">
+                        style="height:100%; width:100%; border: none;">
                 </iframe>
             </el-main>
 

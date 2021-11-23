@@ -43,6 +43,9 @@
     <%-- 全国城市列表 --%>
     <script src="cities.js"></script>
 
+    <%--  滚动条样式  --%>
+    <link href="../../../style/index.css" rel="stylesheet">
+
 </head>
 <body>
 

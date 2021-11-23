@@ -40,6 +40,9 @@
     <!-- 引入组件库 -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 
+    <%--  滚动条样式  --%>
+    <link href="../../../style/index.css" rel="stylesheet">
+
 </head>
 <body>
 
