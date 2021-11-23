@@ -57,8 +57,6 @@
                 {prop: 'commodity_id', label: '货品编码'},
                 {prop: 'commodity_type', label: '货品类别'},
                 {prop: 'commodity_name', label: '货品名称'},
-                // {prop: 'description', label: '规格型号'},
-                // {prop: 'unit', label: '单位'},
                 {prop: 'in_quantity', label: '入库总量'},
                 {prop: 'in_total_amount', label: '入库总金额'},
                 {prop: 'out_quantity', label: '出库总量'},
