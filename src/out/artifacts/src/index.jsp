@@ -85,6 +85,7 @@
         ["2-3", "view/setting/add_commodity"],
         ["2-4", "view/setting/add_supplier"],
         ["2-5", "view/setting/add_customer"],
+        ["3-1", "view/storage_in/purchase"],
     ]);
     var indexVue = new Vue({
         el: "#indexVue",
