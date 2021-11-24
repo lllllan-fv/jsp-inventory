@@ -88,8 +88,8 @@
         created: function () {
         },
         beforeMount: function () {
-        },
-    })
+        }
+    });
 </script>
 
 </body>

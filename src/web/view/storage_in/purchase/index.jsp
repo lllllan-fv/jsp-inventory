@@ -102,6 +102,12 @@
                 commodity_name: [
                     {required: true, message: '请选择货品', trigger: 'change'},
                 ],
+                price: [
+                    {required: true, message: '请输入单价', trigger: 'blur'},
+                ],
+                quantity: [
+                    {required: true, message: '请输入单价', trigger: 'blur'},
+                ],
             },
         },
         methods: {
@@ -124,7 +130,7 @@
                 if (name.length > 0) {
                     return commodityMap.get(name['0']).inventory;
                 }
-                return '暂无数据';
+                return 0;
             },
             getAmount: function (quantity, price) {
                 quantity = parseInt(quantity);
@@ -132,6 +138,8 @@
                 if (isNaN(quantity) || quantity === 0) return 0;
                 if (isNaN(price) || price === 0) return 0;
                 return quantity * price;
+            },
+            validateQuantity: function (quantity) {
             },
             addRow: function () {
                 // 深拷贝

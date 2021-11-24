@@ -10,7 +10,7 @@
 <template>
     <el-table :data="ruleForm.in"
               :key="tableHeight()"
-              size="mini"
+              size="medium"
               border
               style="width: 100%; border-radius: 5px">
         <el-table-column type="index"
@@ -33,18 +33,26 @@
         <el-table-column prop="commodity_name"
                          label="货品名称">
             <template slot-scope="scope">
-                <el-cascader :options="commodities"
-                             v-model="scope.row.commodity_name"
-                             filterable clearable
-                             style="width: 100%">
-                </el-cascader>
+                <%-- 表单中的表格验证 --%>
+                <el-form-item :prop="'in.'+scope.$index+'.commodity_name'"
+                              :rules="rules.commodity_name">
+                    <el-cascader :options="commodities"
+                                 v-model="scope.row.commodity_name"
+                                 filterable clearable
+                                 style="width: 100%">
+                    </el-cascader>
+                </el-form-item>
             </template>
         </el-table-column>
         <el-table-column prop="price"
                          label="单价">
             <template slot-scope="scope">
-                <el-input oninput="value=value.replace(/[^\d]/g,'')"
-                          v-model="scope.row.price"></el-input>
+                <el-form-item :prop="'in.'+scope.$index+'.price'"
+                              :rules="rules.price">
+                    <el-input MaxLength="5"
+                              oninput="value=value.replace(/[^\d]/g,'')"
+                              v-model="scope.row.price"></el-input>
+                </el-form-item>
             </template>
         </el-table-column>
         <el-table-column prop="inventory"
@@ -53,11 +61,14 @@
                 {{ getInventory(scope.row.commodity_name) }}
             </template>
         </el-table-column>
-        <el-table-column prop="quantity"
-                         label="数量">
+        <el-table-column label="数量">
             <template slot-scope="scope">
-                <el-input oninput="value=value.replace(/[^\d]/g,'')"
-                          v-model="scope.row.quantity"></el-input>
+                <el-form-item :prop="'in.'+scope.$index+'.quantity'"
+                              :rules="rules.quantity">
+                    <el-input MaxLength="5"
+                              oninput="value=value.replace(/[^\d]/g,'')"
+                              v-model="scope.row.quantity"></el-input>
+                </el-form-item>
             </template>
         </el-table-column>
         <el-table-column prop="amount"
