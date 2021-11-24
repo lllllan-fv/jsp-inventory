@@ -58,7 +58,7 @@
         <el-table-column prop="inventory"
                          label="库存数量">
             <template slot-scope="scope">
-                {{ getInventory(scope.row.commodity_name) }}
+                {{ scope.row.inventory = getInventory(scope.row.commodity_name) }}
             </template>
         </el-table-column>
         <el-table-column label="数量">
@@ -66,6 +66,7 @@
                 <el-form-item :prop="'in.'+scope.$index+'.quantity'"
                               :rules="rules.quantity">
                     <el-input MaxLength="5"
+                              @input="validateQuantity(scope.row)"
                               oninput="value=value.replace(/[^\d]/g,'')"
                               v-model="scope.row.quantity"></el-input>
                 </el-form-item>
@@ -77,5 +78,12 @@
                 {{ scope.row.amount = getAmount(scope.row.quantity, scope.row.price) }}
             </template>
         </el-table-column>
+        <el-table-column label="操作"
+                         width="60">
+            <template slot-scope="scope">
+                <el-button @click="removeRow(scope.$index)" type="text">删除</el-button>
+            </template>
+        </el-table-column>
+
     </el-table>
 </template>

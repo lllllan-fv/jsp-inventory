@@ -53,12 +53,14 @@
 </div>
 
 <script>
+    <%-- 货品对应【编码、类别、库存】 --%>
     var commodityMap = new Map([
         ['1', {id: '2', type: '3', inventory: 4}],
     ]);
     var purchaseVue = new Vue({
         el: '#purchaseVue',
         data: {
+            // 表格的空对象
             emptyTableData: {
                 commodity_id: '',
                 commodity_type: '',
@@ -68,12 +70,15 @@
                 quantity: '',
                 amount: '',
             },
+            // 供应商列表
             suppliers: [
                 {value: '1', label: '2'},
             ],
+            // 仓库列表
             storehouses: [
                 {value: '1', label: '2'},
             ],
+            // 货品列表
             commodities: [
                 {value: '1', label: '1'},
             ],
@@ -139,13 +144,25 @@
                 if (isNaN(price) || price === 0) return 0;
                 return quantity * price;
             },
-            validateQuantity: function (quantity) {
+            validateQuantity: function (item) {
+                item.quantity = Math.min(item.quantity, item.inventory);
             },
             addRow: function () {
                 // 深拷贝
                 var tmp = {};
                 $.extend(true, tmp, this.emptyTableData);
                 this.ruleForm.in.push(tmp);
+            },
+            removeRow: function (index) {
+                this.ruleForm.in.splice(index, 1);
+                if (this.ruleForm.in.length === 0) {
+                    this.addRow();
+                    this.$message({
+                        showClose: true,
+                        message: '请至少购入一件货品',
+                        type: 'warning'
+                    });
+                }
             },
             submitForm: function (formName) {
                 this.$refs[formName].validate(function (valid) {
