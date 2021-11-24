@@ -72,9 +72,14 @@
         },
         methods: {
             submitForm: function (formName) {
-                console.log(this.ruleForm.position);
                 this.$refs[formName].validate(function (valid) {
                     console.log(valid);
+                    if (valid) {
+
+                    } else {
+                        // 有错则滑到页面顶部
+                        window.scrollTo(0, 0);
+                    }
                 });
             },
             resetForm: function (formName) {
