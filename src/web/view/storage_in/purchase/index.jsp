@@ -52,7 +52,7 @@
 
 <script>
     var commodityMap = new Map([
-        ['1', {id: '2', type: '3', inventory: '4'}],
+        ['1', {id: '2', type: '3', inventory: 4}],
     ]);
     var purchaseVue = new Vue({
         el: '#purchaseVue',
@@ -83,6 +83,9 @@
             rules: {},
         },
         methods: {
+            tableHeight: function () {
+                return Math.min(this.ruleForm.in.length, 3);
+            },
             getID: function (name) {
                 if (name !== '') {
                     return commodityMap.get(name['0']).id;
@@ -122,6 +125,15 @@
             },
             resetForm: function (formName) {
                 this.$refs[formName].resetFields();
+            },
+        },
+        computed: {
+            getTotalAmount: function () {
+                var sum = 0;
+                this.ruleForm.in.forEach(function (item) {
+                    sum += item.amount;
+                });
+                return sum;
             },
         },
         created: function () {
