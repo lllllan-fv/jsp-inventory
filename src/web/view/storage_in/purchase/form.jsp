@@ -34,9 +34,8 @@
             </el-form-item>
         </el-col>
         <el-col span="8" offset="4">
-            <el-form-item label="供应商">
-                <el-cascader placeholder="请选择供应商"
-                             :options="suppliers"
+            <el-form-item label="供应商" prop="supplier">
+                <el-cascader :options="suppliers"
                              v-model="ruleForm.supplier"
                              filterable clearable
                              style="width: 100%">
@@ -45,7 +44,28 @@
         </el-col>
     </el-row>
 
-    <el-form-item label="经手人">
+    <el-row>
+        <el-col span="8">
+            <el-form-item label="收货仓库" prop="storehouse">
+                <el-cascader :options="storehouses"
+                             v-model="ruleForm.storehouse"
+                             filterable clearable
+                             style="width: 100%">
+                </el-cascader>
+            </el-form-item>
+        </el-col>
+        <el-col span="8" offset="4">
+            <el-form-item label="入库日期" prop="date">
+                <el-date-picker v-model="ruleForm.date"
+                                type="date"
+                                placeholder="请选择"
+                                style="width: 100%;">
+                </el-date-picker>
+            </el-form-item>
+        </el-col>
+    </el-row>
+
+    <el-form-item label="经手人" prop="dealer">
         <el-col span="8">
             <el-input v-model="ruleForm.dealer"></el-input>
         </el-col>
@@ -57,11 +77,18 @@
         <el-button type="text" @click="addRow">+ 添加</el-button>
     </el-form-item>
 
-    <el-form-item label="合计金额">
+    <el-row>
         <el-col span="8">
-            <el-input v-model="getTotalAmount" disabled></el-input>
+            <el-form-item label="合计金额">
+                <el-input v-model="getTotalAmount" disabled></el-input>
+            </el-form-item>
         </el-col>
-    </el-form-item>
+        <el-col span="8" offset="4">
+            <el-form-item label="大写金额">
+                <el-input v-model="getChineseNumber" disabled></el-input>
+            </el-form-item>
+        </el-col>
+    </el-row>
 
     <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>

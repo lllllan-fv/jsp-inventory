@@ -72,7 +72,6 @@
         },
         methods: {
             submitForm: function (formName) {
-                console.log(this.ruleForm.position);
                 this.$refs[formName].validate(function (valid) {
                     console.log(valid);
                 });

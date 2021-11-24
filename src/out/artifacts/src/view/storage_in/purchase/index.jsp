@@ -43,6 +43,8 @@
     <%--  滚动条样式  --%>
     <link href="../../../style/index.css" rel="stylesheet">
 
+    <script src="chineseNumber.js"></script>
+
 </head>
 <body>
 
@@ -69,6 +71,9 @@
             suppliers: [
                 {value: '1', label: '2'},
             ],
+            storehouses: [
+                {value: '1', label: '2'},
+            ],
             commodities: [
                 {value: '1', label: '1'},
             ],
@@ -80,26 +85,43 @@
                 dealer: '',
                 in: [],
             },
-            rules: {},
+            rules: {
+                supplier: [
+                    {required: true, message: '请选择供应商', trigger: 'change'},
+                ],
+                storehouse: [
+                    {required: true, message: '请选择收货仓库', trigger: 'change'},
+                ],
+                date: [
+                    {required: true, message: '请选择入库日期', trigger: 'change'},
+                ],
+                dealer: [
+                    {required: true, message: '请输入经手人姓名', trigger: 'blur'},
+                    {min: 2, max: 10, message: '长度在 2 到 10 个字符', trigger: 'blur'}
+                ],
+                commodity_name: [
+                    {required: true, message: '请选择货品', trigger: 'change'},
+                ],
+            },
         },
         methods: {
             tableHeight: function () {
-                return Math.min(this.ruleForm.in.length, 3);
+                return this.ruleForm.in.length;
             },
             getID: function (name) {
-                if (name !== '') {
+                if (name.length > 0) {
                     return commodityMap.get(name['0']).id;
                 }
                 return '暂无数据';
             },
             getType: function (name) {
-                if (name !== '') {
+                if (name.length > 0) {
                     return commodityMap.get(name['0']).type;
                 }
                 return '暂无数据';
             },
             getInventory: function (name) {
-                if (name !== '') {
+                if (name.length > 0) {
                     return commodityMap.get(name['0']).inventory;
                 }
                 return '暂无数据';
@@ -118,12 +140,13 @@
                 this.ruleForm.in.push(tmp);
             },
             submitForm: function (formName) {
-                console.log(this.ruleForm.position);
                 this.$refs[formName].validate(function (valid) {
                     console.log(valid);
                 });
             },
             resetForm: function (formName) {
+                this.ruleForm.in.splice(0, this.ruleForm.in.length);
+                this.addRow();
                 this.$refs[formName].resetFields();
             },
         },
@@ -135,6 +158,9 @@
                 });
                 return sum;
             },
+            getChineseNumber: function () {
+                return chineseNumber(this.getTotalAmount);
+            }
         },
         created: function () {
         },

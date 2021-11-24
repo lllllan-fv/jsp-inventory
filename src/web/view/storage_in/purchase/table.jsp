@@ -33,8 +33,7 @@
         <el-table-column prop="commodity_name"
                          label="货品名称">
             <template slot-scope="scope">
-                <el-cascader placeholder="请选择地址"
-                             :options="commodities"
+                <el-cascader :options="commodities"
                              v-model="scope.row.commodity_name"
                              filterable clearable
                              style="width: 100%">
