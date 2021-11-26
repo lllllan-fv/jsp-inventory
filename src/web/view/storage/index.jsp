@@ -41,7 +41,7 @@
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 
     <%--  滚动条样式  --%>
-    <link href="../../../style/index.css" rel="stylesheet">
+    <link href="../../style/index.css" rel="stylesheet">
 
     <script src="chineseNumber.js"></script>
 
@@ -82,14 +82,17 @@
             commodities: [
                 {value: '1', label: '1'},
             ],
+            // 表单数据
             ruleForm: {
                 invoice_type: '采购入库',
                 supplier: '',
                 storehouse: '',
                 date: '',
                 dealer: '',
+                // 表格数据
                 in: [],
             },
+            // 校验规则
             rules: {
                 supplier: [
                     {required: true, message: '请选择供应商', trigger: 'change'},
@@ -116,27 +119,32 @@
             },
         },
         methods: {
+            // 设置表格高度适应数据行数
             tableHeight: function () {
                 return this.ruleForm.in.length;
             },
+            // 返回货品对应的编码
             getID: function (name) {
                 if (name.length > 0) {
                     return commodityMap.get(name['0']).id;
                 }
                 return '暂无数据';
             },
+            // 返回货品对应的类型
             getType: function (name) {
                 if (name.length > 0) {
                     return commodityMap.get(name['0']).type;
                 }
                 return '暂无数据';
             },
+            // 返回货品对应的库存
             getInventory: function (name) {
                 if (name.length > 0) {
                     return commodityMap.get(name['0']).inventory;
                 }
                 return 0;
             },
+            // 根据数量和单价计算金额
             getAmount: function (quantity, price) {
                 quantity = parseInt(quantity);
                 price = parseInt(price);
@@ -144,15 +152,17 @@
                 if (isNaN(price) || price === 0) return 0;
                 return quantity * price;
             },
+            // （如果是出库）校验数量不超过库存
             validateQuantity: function (item) {
-                item.quantity = Math.min(item.quantity, item.inventory);
+                // item.quantity = Math.min(item.quantity, item.inventory);
             },
+            // 表格数据中添加一行空数据
             addRow: function () {
-                // 深拷贝
                 var tmp = {};
                 $.extend(true, tmp, this.emptyTableData);
                 this.ruleForm.in.push(tmp);
             },
+            // 表格删除一行
             removeRow: function (index) {
                 this.ruleForm.in.splice(index, 1);
                 if (this.ruleForm.in.length === 0) {
@@ -182,6 +192,7 @@
             },
         },
         computed: {
+            // 实时计算总金额
             getTotalAmount: function () {
                 var sum = 0;
                 this.ruleForm.in.forEach(function (item) {
@@ -189,6 +200,7 @@
                 });
                 return sum;
             },
+            // 总金额对应的大写金额
             getChineseNumber: function () {
                 return chineseNumber(this.getTotalAmount);
             }
@@ -197,6 +209,7 @@
         },
         beforeMount: function () {
             this.addRow();
+            console.log(window.parent.indexVue.currentActive);
         },
     });
 </script>

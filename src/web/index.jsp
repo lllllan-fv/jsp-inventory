@@ -85,7 +85,12 @@
         ["2-3", "view/setting/add_commodity"],
         ["2-4", "view/setting/add_supplier"],
         ["2-5", "view/setting/add_customer"],
-        ["3-1", "view/storage_in/purchase"],
+        ["3-1", "view/storage"],
+        ["3-2", "view/storage"],
+        ["3-3", "view/storage"],
+        ["4-1", "view/storage"],
+        ["4-2", "view/storage"],
+        ["4-3", "view/storage"],
     ]);
     var indexVue = new Vue({
         el: "#indexVue",

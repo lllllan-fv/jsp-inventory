@@ -41,7 +41,7 @@
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 
     <%--  滚动条样式  --%>
-    <link href="../../../style/index.css" rel="stylesheet">
+    <link href="../../style/index.css" rel="stylesheet">
 
     <script src="chineseNumber.js"></script>
 
@@ -209,6 +209,7 @@
         },
         beforeMount: function () {
             this.addRow();
+            console.log(window.parent.indexVue.currentActive);
         },
     });
 </script>
