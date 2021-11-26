@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>purchase</title>
+    <title>storage</title>
 
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -48,7 +48,7 @@
 </head>
 <body>
 
-<div id="purchaseVue">
+<div id="storageVue">
     <jsp:include page="form.jsp"></jsp:include>
 </div>
 
@@ -57,9 +57,10 @@
     var commodityMap = new Map([
         ['1', {id: '2', type: '3', inventory: 4}],
     ]);
-    var purchaseVue = new Vue({
-        el: '#purchaseVue',
+    var storageVue = new Vue({
+        el: '#storageVue',
         data: {
+            task: '',
             // 表格的空对象
             emptyTableData: {
                 commodity_id: '',
@@ -209,7 +210,28 @@
         },
         beforeMount: function () {
             this.addRow();
-            console.log(window.parent.indexVue.currentActive);
+            var current = window.parent.indexVue.currentActive;
+            switch (current) {
+                case "3-1":
+                    this.task = '采购入库';
+                    break;
+                case "3-2":
+                    this.task = '生产入库';
+                    break;
+                case "3-3":
+                    this.task = '退货入库';
+                    break;
+                case "4-1":
+                    this.task = '采购出库';
+                    break;
+                case "4-2":
+                    this.task = '消耗出库';
+                    break;
+                case "4-3":
+                    this.task = '退货出库';
+                    break;
+            }
+            console.log(this.task);
         },
     });
 </script>

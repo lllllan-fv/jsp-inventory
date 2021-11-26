@@ -65,7 +65,7 @@
 
             <%-- 页面内容 --%>
             <el-main>
-                <iframe
+                <iframe id="myIframe"
                         :src="iframeSrc"
                         style="height:100%; width:100%; border: none;">
                 </iframe>
@@ -160,12 +160,12 @@
                         {
                             index: '3-2',
                             icon: 'el-icon-box',
-                            title: '退货入库',
+                            title: '生产入库',
                         },
                         {
                             index: '3-3',
                             icon: 'el-icon-box',
-                            title: '生产入库',
+                            title: '退货入库',
                         },
                     ],
                 },
@@ -182,12 +182,12 @@
                         {
                             index: '4-2',
                             icon: 'el-icon-box',
-                            title: '退货出库',
+                            title: '消耗出库',
                         },
                         {
                             index: '4-3',
                             icon: 'el-icon-box',
-                            title: '消耗出库',
+                            title: '退货出库',
                         },
                     ],
                 },
@@ -211,8 +211,14 @@
             ],
         },
         methods: {
+            setIframe: function (index) {
+                this.currentActive = index;
+                this.iframeSrc = pathMap.get(index);
+                // 刷新子页面，重新获取页面内容
+                $("#myIframe").attr('src', $("#myIframe").attr('src'));
+            },
             menuItemClick: function (item) {
-                this.iframeSrc = pathMap.get(item.index);
+                this.setIframe(item.index);
                 sessionStorage.setItem("current", item.index);
             }
         },
@@ -221,7 +227,7 @@
         beforeMount: function () {
             var current = sessionStorage.getItem("current");
             this.currentActive = current == null ? "1-1" : current;
-            this.iframeSrc = pathMap.get(this.currentActive);
+            this.setIframe(this.currentActive);
         }
     })
 </script>
