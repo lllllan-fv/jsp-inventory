@@ -1,5 +1,7 @@
 <%--
-  Created by IntelliJ IDEA.
+  Created by
+
+  telliJ IDEA.
   User: lllllan
   Date: 2021/11/24
   Time: 8:40
@@ -8,7 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <template>
-    <el-table :data="ruleForm.in"
+    <el-table :data="ruleForm.table"
               :key="tableHeight()"
               size="medium"
               border
@@ -34,7 +36,7 @@
                          label="货品名称">
             <template slot-scope="scope">
                 <%-- 表单中的表格验证 --%>
-                <el-form-item :prop="'in.'+scope.$index+'.commodity_name'"
+                <el-form-item :prop="'table.'+scope.$index+'.commodity_name'"
                               :rules="rules.commodity_name">
                     <el-cascader :options="commodities"
                                  v-model="scope.row.commodity_name"
@@ -47,7 +49,7 @@
         <el-table-column prop="price"
                          label="单价">
             <template slot-scope="scope">
-                <el-form-item :prop="'in.'+scope.$index+'.price'"
+                <el-form-item :prop="'table.'+scope.$index+'.price'"
                               :rules="rules.price">
                     <el-input MaxLength="5"
                               oninput="value=value.replace(/[^\d]/g,'')"
@@ -63,7 +65,7 @@
         </el-table-column>
         <el-table-column label="数量">
             <template slot-scope="scope">
-                <el-form-item :prop="'in.'+scope.$index+'.quantity'"
+                <el-form-item :prop="'table.'+scope.$index+'.quantity'"
                               :rules="rules.quantity">
                     <el-input MaxLength="5"
                               @input="validateQuantity(scope.row)"

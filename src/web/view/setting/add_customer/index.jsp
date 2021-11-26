@@ -47,7 +47,7 @@
     <link href="../../../style/index.css" rel="stylesheet">
 
 </head>
-<body>
+<body style="padding: 30px">
 
 <div id="addCustomerVue">
     <jsp:include page="form.jsp"></jsp:include>

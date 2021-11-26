@@ -46,7 +46,7 @@
     <script src="chineseNumber.js"></script>
 
 </head>
-<body>
+<body style="padding: 30px">
 
 <div id="storageVue">
     <jsp:include page="form.jsp"></jsp:include>
@@ -55,7 +55,7 @@
 <script>
     <%-- 货品对应【编码、类别、库存】 --%>
     var commodityMap = new Map([
-        ['1', {id: '2', type: '3', inventory: 4}],
+        ['货品', {id: '2', type: '3', inventory: 4}],
     ]);
     var storageVue = new Vue({
         el: '#storageVue',
@@ -73,30 +73,38 @@
             },
             // 供应商列表
             suppliers: [
-                {value: '1', label: '2'},
+                {value: '供应商', label: '供应商'},
+            ],
+            // 客户列表
+            customers: [
+                {value: '客户', label: '客户'},
             ],
             // 仓库列表
             storehouses: [
-                {value: '1', label: '2'},
+                {value: '仓库', label: '仓库'},
             ],
             // 货品列表
             commodities: [
-                {value: '1', label: '1'},
+                {value: '货品', label: '货品'},
             ],
             // 表单数据
             ruleForm: {
-                invoice_type: '采购入库',
+                invoice_type: '',
                 supplier: '',
+                customer: '',
                 storehouse: '',
                 date: '',
                 dealer: '',
                 // 表格数据
-                in: [],
+                table: [],
             },
             // 校验规则
             rules: {
                 supplier: [
                     {required: true, message: '请选择供应商', trigger: 'change'},
+                ],
+                customer: [
+                    {required: true, message: '请选择客户', trigger: 'change'},
                 ],
                 storehouse: [
                     {required: true, message: '请选择收货仓库', trigger: 'change'},
@@ -122,7 +130,11 @@
         methods: {
             // 设置表格高度适应数据行数
             tableHeight: function () {
-                return this.ruleForm.in.length;
+                return this.ruleForm.table.length;
+            },
+            // 返回【收货/发货】仓库
+            getStorehouseName: function () {
+                return (this.task.indexOf('入库') === -1 ? "发货" : "收货") + "仓库";
             },
             // 返回货品对应的编码
             getID: function (name) {
@@ -155,22 +167,28 @@
             },
             // （如果是出库）校验数量不超过库存
             validateQuantity: function (item) {
-                // item.quantity = Math.min(item.quantity, item.inventory);
+                if (this.task.indexOf('出库') !== -1) {
+                    var tot = 0;
+                    this.ruleForm.table.forEach(function (value) {
+                        //?
+                    });
+                    item.quantity = Math.min(item.quantity - tot, item.inventory);
+                }
             },
             // 表格数据中添加一行空数据
             addRow: function () {
                 var tmp = {};
                 $.extend(true, tmp, this.emptyTableData);
-                this.ruleForm.in.push(tmp);
+                this.ruleForm.table.push(tmp);
             },
             // 表格删除一行
             removeRow: function (index) {
-                this.ruleForm.in.splice(index, 1);
-                if (this.ruleForm.in.length === 0) {
+                this.ruleForm.table.splice(index, 1);
+                if (this.ruleForm.table.length === 0) {
                     this.addRow();
                     this.$message({
                         showClose: true,
-                        message: '请至少购入一件货品',
+                        message: '请至少输入一件货品',
                         type: 'warning'
                     });
                 }
@@ -187,7 +205,7 @@
                 });
             },
             resetForm: function (formName) {
-                this.ruleForm.in.splice(0, this.ruleForm.in.length);
+                this.ruleForm.table.splice(0, this.ruleForm.table.length);
                 this.addRow();
                 this.$refs[formName].resetFields();
             },
@@ -196,7 +214,7 @@
             // 实时计算总金额
             getTotalAmount: function () {
                 var sum = 0;
-                this.ruleForm.in.forEach(function (item) {
+                this.ruleForm.table.forEach(function (item) {
                     sum += item.amount;
                 });
                 return sum;
@@ -222,7 +240,7 @@
                     this.task = '退货入库';
                     break;
                 case "4-1":
-                    this.task = '采购出库';
+                    this.task = '销售出库';
                     break;
                 case "4-2":
                     this.task = '消耗出库';
@@ -231,7 +249,7 @@
                     this.task = '退货出库';
                     break;
             }
-            console.log(this.task);
+            this.ruleForm.invoice_type = this.task;
         },
     });
 </script>

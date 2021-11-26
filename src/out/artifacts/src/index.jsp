@@ -64,7 +64,7 @@
             </el-aside>
 
             <%-- 页面内容 --%>
-            <el-main>
+            <el-main style="padding: 0">
                 <iframe id="myIframe"
                         :src="iframeSrc"
                         style="height:100%; width:100%; border: none;">
@@ -162,11 +162,11 @@
                             icon: 'el-icon-box',
                             title: '生产入库',
                         },
-                        {
-                            index: '3-3',
-                            icon: 'el-icon-box',
-                            title: '退货入库',
-                        },
+                        // {
+                        //     index: '3-3',
+                        //     icon: 'el-icon-box',
+                        //     title: '退货入库',
+                        // },
                     ],
                 },
                 {
@@ -177,18 +177,18 @@
                         {
                             index: '4-1',
                             icon: 'el-icon-box',
-                            title: '采购出库',
+                            title: '销售出库',
                         },
                         {
                             index: '4-2',
                             icon: 'el-icon-box',
                             title: '消耗出库',
                         },
-                        {
-                            index: '4-3',
-                            icon: 'el-icon-box',
-                            title: '退货出库',
-                        },
+                        // {
+                        //     index: '4-3',
+                        //     icon: 'el-icon-box',
+                        //     title: '退货出库',
+                        // },
                     ],
                 },
                 {

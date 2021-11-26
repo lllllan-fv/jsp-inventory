@@ -44,7 +44,7 @@
     <link href="../../../style/index.css" rel="stylesheet">
 
 </head>
-<body>
+<body style="padding: 30px">
 
 <div id="inventoryInquiryVue">
     <jsp:include page="table.jsp"></jsp:include>

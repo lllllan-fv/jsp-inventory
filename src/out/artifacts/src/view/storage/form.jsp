@@ -29,24 +29,35 @@
 
     <el-row>
         <el-col span="8">
-            <el-form-item label="采购单号">
+            <el-form-item :label="ruleForm.invoice_type.substring(0,2)+'单号'">
                 <el-input value="自动生成无需填写" disabled></el-input>
             </el-form-item>
         </el-col>
         <el-col span="8" offset="4">
-            <el-form-item label="供应商" prop="supplier">
-                <el-cascader :options="suppliers"
-                             v-model="ruleForm.supplier"
-                             filterable clearable
-                             style="width: 100%">
-                </el-cascader>
-            </el-form-item>
+            <template v-if="ruleForm.invoice_type.indexOf('采购')!=-1">
+                <el-form-item label="供应商" prop="supplier">
+                    <el-cascader :options="suppliers"
+                                 v-model="ruleForm.supplier"
+                                 filterable clearable
+                                 style="width: 100%">
+                    </el-cascader>
+                </el-form-item>
+            </template>
+            <template v-else-if="ruleForm.invoice_type.indexOf('销售')!=-1">
+                <el-form-item label="客户" prop="customer">
+                    <el-cascader :options="customers"
+                                 v-model="ruleForm.customer"
+                                 filterable clearable
+                                 style="width: 100%">
+                    </el-cascader>
+                </el-form-item>
+            </template>
         </el-col>
     </el-row>
 
     <el-row>
         <el-col span="8">
-            <el-form-item label="收货仓库" prop="storehouse">
+            <el-form-item :label="getStorehouseName()" prop="storehouse">
                 <el-cascader :options="storehouses"
                              v-model="ruleForm.storehouse"
                              filterable clearable
@@ -55,7 +66,7 @@
             </el-form-item>
         </el-col>
         <el-col span="8" offset="4">
-            <el-form-item label="入库日期" prop="date">
+            <el-form-item :label="task.substring(2, 4) + '日期'" prop="date">
                 <el-date-picker v-model="ruleForm.date"
                                 type="date"
                                 placeholder="请选择"
@@ -71,19 +82,21 @@
         </el-col>
     </el-form-item>
 
-    <el-form-item label="入库明细">
+    <el-form-item :label="task.substring(2, 4) + '明细'">
         <jsp:include page="table.jsp"></jsp:include>
 
         <el-button type="text" @click="addRow">+ 添加</el-button>
     </el-form-item>
 
     <el-row>
-        <el-col span="8">
+        <el-col span="15">
             <el-form-item label="合计金额">
                 <el-input v-model="getTotalAmount" disabled></el-input>
             </el-form-item>
         </el-col>
-        <el-col span="8" offset="4">
+    </el-row>
+    <el-row>
+        <el-col span="15">
             <el-form-item label="大写金额">
                 <el-input v-model="getChineseNumber" disabled></el-input>
             </el-form-item>

@@ -19,7 +19,7 @@
                     sortable
                     :prop="item.prop"
                     :label="item.label"
-                    width="180">
+                    width="160">
             </el-table-column>
         </template>
 
