@@ -20,7 +20,9 @@
                 <el-input v-model="ruleForm.invoice_type" disabled></el-input>
             </el-form-item>
         </el-col>
-        <el-col span="8" offset="4">
+    </el-row>
+    <el-row>
+        <el-col span="8">
             <el-form-item label="单据编号">
                 <el-input value="自动生成无需填写" disabled></el-input>
             </el-form-item>
@@ -29,11 +31,14 @@
 
     <el-row>
         <el-col span="8">
-            <el-form-item :label="ruleForm.invoice_type.substring(0,2)+'单号'">
+            <el-form-item v-if="ruleForm.invoice_type.indexOf('调拨')===-1"
+                          :label="ruleForm.invoice_type.substring(0,2)+'单号'">
                 <el-input value="自动生成无需填写" disabled></el-input>
             </el-form-item>
         </el-col>
-        <el-col span="8" offset="4">
+    </el-row>
+    <el-row>
+        <el-col span="8">
             <template v-if="ruleForm.invoice_type.indexOf('采购')!=-1">
                 <el-form-item label="供应商" prop="supplier">
                     <el-cascader :options="suppliers"
@@ -55,17 +60,47 @@
         </el-col>
     </el-row>
 
+    <template v-if="task.indexOf('入库')===-1">
+        <el-row>
+            <el-col span="8">
+                <el-form-item label="发货仓库" prop="storehouse_out">
+                    <el-select v-model="ruleForm.storehouse_out"
+                               @change="chooseStorehouse"
+                               filterable clearable
+                               style="width: 100%">
+                        <el-option v-for="item in storehouses"
+                                   :key="item.value"
+                                   :value="item.value"
+                                   :label="item.label"
+                                   :disabled="item.disabled">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+            </el-col>
+        </el-row>
+    </template>
+    <template v-if="task.indexOf('出库')===-1">
+        <el-row>
+            <el-col span="8">
+                <el-form-item label="收货仓库" prop="storehouse_in">
+                    <el-select v-model="ruleForm.storehouse_in"
+                               @change="chooseStorehouse"
+                               filterable clearable
+                               style="width: 100%">
+                        <el-option v-for="item in storehouses"
+                                   :key="item.value"
+                                   :value="item.value"
+                                   :label="item.label"
+                                   :disabled="item.disabled">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+            </el-col>
+        </el-row>
+    </template>
+
     <el-row>
         <el-col span="8">
-            <el-form-item :label="getStorehouseName()" prop="storehouse">
-                <el-cascader :options="storehouses"
-                             v-model="ruleForm.storehouse"
-                             filterable clearable
-                             style="width: 100%">
-                </el-cascader>
-            </el-form-item>
-        </el-col>
-        <el-col span="8" offset="4">
             <el-form-item :label="task.substring(2, 4) + '日期'" prop="date">
                 <el-date-picker v-model="ruleForm.date"
                                 type="date"

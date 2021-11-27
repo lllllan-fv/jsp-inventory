@@ -81,7 +81,9 @@
             ],
             // 仓库列表
             storehouses: [
-                {value: '仓库', label: '仓库'},
+                {value: '一号仓库', label: '一号仓库', disabled: false},
+                {value: '二号仓库', label: '二号仓库', disabled: false},
+                {value: '三号仓库', label: '三号仓库', disabled: false},
             ],
             // 货品列表
             commodities: [
@@ -92,7 +94,8 @@
                 invoice_type: '',
                 supplier: '',
                 customer: '',
-                storehouse: '',
+                storehouse_in: '',
+                storehouse_out: '',
                 date: '',
                 dealer: '',
                 // 表格数据
@@ -106,8 +109,11 @@
                 customer: [
                     {required: true, message: '请选择客户', trigger: 'change'},
                 ],
-                storehouse: [
+                storehouse_in: [
                     {required: true, message: '请选择收货仓库', trigger: 'change'},
+                ],
+                storehouse_out: [
+                    {required: true, message: '请选择发货仓库', trigger: 'change'},
                 ],
                 date: [
                     {required: true, message: '请选择入库日期', trigger: 'change'},
@@ -131,10 +137,6 @@
             // 设置表格高度适应数据行数
             tableHeight: function () {
                 return this.ruleForm.table.length;
-            },
-            // 返回【收货/发货】仓库
-            getStorehouseName: function () {
-                return (this.task.indexOf('入库') === -1 ? "发货" : "收货") + "仓库";
             },
             // 返回货品对应的编码
             getID: function (name) {
@@ -174,6 +176,18 @@
                     });
                     item.quantity = Math.min(item.quantity - tot, item.inventory);
                 }
+            },
+            // 禁止发货和收货仓库重选
+            chooseStorehouse: function (x) {
+                var _in = this.ruleForm.storehouse_in;
+                var _out = this.ruleForm.storehouse_out
+                this.storehouses.forEach(function (item) {
+                    if (item.value === _in || item.value === _out) {
+                        item.disabled = true;
+                    } else {
+                        item.disabled = false;
+                    }
+                })
             },
             // 表格数据中添加一行空数据
             addRow: function () {
@@ -247,6 +261,9 @@
                     break;
                 case "4-3":
                     this.task = '退货出库';
+                    break;
+                case "5-1":
+                    this.task = '库存调拨';
                     break;
             }
             this.ruleForm.invoice_type = this.task;
