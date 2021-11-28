@@ -41,6 +41,7 @@
 
     <%--  滚动条样式  --%>
     <link href="../../../style/index.css" rel="stylesheet">
+    <script src="cities.js"></script>
 
 </head>
 <body style="padding: 30px">
@@ -53,6 +54,7 @@
     var addStoreHouseVue = new Vue({
         el: "#addStoreHouseVue",
         data: {
+            cities: cities,
             ruleForm: {
                 name: '',
                 position: '',
@@ -65,6 +67,7 @@
                     {required: true, message: '请输入仓库名称', trigger: 'blur'},
                     {min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur'}
                 ],
+                position: [{required: true, message: '请选择仓库地址', trigger: 'change'}],
                 principal: [
                     {required: true, message: '请输入负责人姓名', trigger: 'blur'},
                     {min: 2, max: 10, message: '长度在 2 到 10 个字符', trigger: 'blur'}

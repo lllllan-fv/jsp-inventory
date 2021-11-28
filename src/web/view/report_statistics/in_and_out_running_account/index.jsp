@@ -57,31 +57,55 @@
             search: '',
             tableHeader: [
                 {prop: 'date', label: '业务日期'},
-                {prop: 'storehouse', label: '仓库'},
-                {prop: 'invoice_type', label: '单据类型'},
-                {prop: 'invoice_id', label: '单据编号'},
-                {prop: 'commodity_id', label: '货品编码'},
-                {prop: 'commodity_type', label: '货品类别'},
-                {prop: 'commodity_name', label: '货品名称'},
-                {prop: 'in_quantity', label: '入库数量'},
-                {prop: 'in_amount', label: '入库金额'},
-                {prop: 'out_quantity', label: '出库数量'},
-                {prop: 'out_amount', label: '出库金额'},
+                {
+                    prop: 'storehouse', label: '仓库',
+                    children: [
+                        {prop: 'storehouse_out', label: '发货仓库'},
+                        {prop: 'storehouse_in', label: '收货仓库'},
+                    ]
+                },
+                {
+                    prop: 'partner', label: '合作方',
+                    children: [
+                        {prop: 'customer', label: '客户'},
+                        {prop: 'supplier', label: '供应商'},
+                    ],
+                },
+                {
+                    prop: 'invoice', label: '单据',
+                    children: [
+                        {prop: 'invoice_type', label: '单据类型'},
+                        {prop: 'invoice_id', label: '单据编号'},
+                    ],
+                },
+                {
+                    prop: 'details', label: '明细',
+                    children: [
+                        {prop: 'commodity_id', label: '货品编码'},
+                        {prop: 'commodity_type', label: '货品类别'},
+                        {prop: 'commodity_name', label: '货品名称'},
+                        {prop: 'quantity', label: '出/入库数量'},
+                        {prop: 'price', label: '单价'},
+                        {prop: 'amount', label: '出/入库金额'},
+                    ]
+                },
             ],
             tableData: [
                 {
                     date: '',
-                    storehouse: '',
+                    storehouse_out: '',
+                    storehouse_in: '',
+                    customer: '',
+                    supplier: '',
                     invoice_type: '',
                     invoice_id: '',
                     commodity_id: '',
                     commodity_type: '',
                     commodity_name: '',
                     description: '',
-                    in_quantity: '',
-                    in_amount: '',
-                    out_quantity: '',
-                    out_amount: '',
+                    quantity: '',
+                    price: '',
+                    amount: '',
                 },
             ],
         },

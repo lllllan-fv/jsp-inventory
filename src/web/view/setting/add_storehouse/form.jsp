@@ -19,11 +19,24 @@
             <el-input v-model="ruleForm.name"></el-input>
         </el-col>
     </el-form-item>
-    <el-form-item label="仓库位置">
+
+    <el-form-item label="仓库地址" prop="position">
         <el-col span="8">
-            <el-input v-model="ruleForm.position"></el-input>
+            <el-cascader placeholder="请选择地址"
+                         :options="cities"
+                         v-model="ruleForm.position"
+                         filterable clearable
+                         style="width: 100%">
+            </el-cascader>
         </el-col>
     </el-form-item>
+    <el-form-item>
+        <el-col span="8">
+            <el-input type="textarea"
+                      placeholder="请填写详细地址，算了反正也没有这个功能"></el-input>
+        </el-col>
+    </el-form-item>
+
     <el-form-item label="负责人" prop="principal">
         <el-col span="8">
             <el-input v-model="ruleForm.principal"></el-input>

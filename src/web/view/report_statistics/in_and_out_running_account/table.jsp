@@ -8,21 +8,33 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <template>
-    <el-table
-            :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
-            stripe border
-            height="100%"
-            style="width: 100%; border-radius: 10px">
+    <el-table :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+              stripe border
+              height="100%"
+              style="width: 100%; border-radius: 10px">
 
         <template v-for="item in tableHeader">
-            <el-table-column :prop="item.prop"
-                             :label="item.label"
-                             sortable
-                             align="center"
-                             width="160">
-            </el-table-column>
+            <template v-if="item.children">
+                <el-table-column :label="item.label" align="center">
+                    <template v-for="subItem in item.children">
+                        <el-table-column :prop="subItem.prop"
+                                         :label="subItem.label"
+                                         sortable
+                                         align="center"
+                                         width="160">
+                        </el-table-column>
+                    </template>
+                </el-table-column>
+            </template>
+            <template v-else>
+                <el-table-column :prop="item.prop"
+                                 :label="item.label"
+                                 sortable
+                                 align="center"
+                                 width="160">
+                </el-table-column>
+            </template>
         </template>
-
         <el-table-column
                 width="180"
                 fixed="right">
