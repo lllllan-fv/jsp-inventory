@@ -92,6 +92,7 @@
         ["4-2", "view/storage"],
         ["4-3", "view/storage"],
         ["5-1", "view/storage"],
+        ["5-2", "view/record"],
     ]);
     var indexVue = new Vue({
         el: "#indexVue",

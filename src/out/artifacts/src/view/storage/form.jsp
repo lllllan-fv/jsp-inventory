@@ -31,14 +31,6 @@
 
     <el-row>
         <el-col span="8">
-            <el-form-item v-if="ruleForm.invoice_type.indexOf('调拨')===-1"
-                          :label="ruleForm.invoice_type.substring(0,2)+'单号'">
-                <el-input value="自动生成无需填写" disabled></el-input>
-            </el-form-item>
-        </el-col>
-    </el-row>
-    <el-row>
-        <el-col span="8">
             <template v-if="ruleForm.invoice_type.indexOf('采购')!=-1">
                 <el-form-item label="供应商" prop="supplier">
                     <el-cascader :options="suppliers"

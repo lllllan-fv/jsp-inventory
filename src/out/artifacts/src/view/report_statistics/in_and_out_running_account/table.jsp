@@ -15,11 +15,11 @@
             style="width: 100%; border-radius: 10px">
 
         <template v-for="item in tableHeader">
-            <el-table-column
-                    sortable
-                    :prop="item.prop"
-                    :label="item.label"
-                    width="160">
+            <el-table-column :prop="item.prop"
+                             :label="item.label"
+                             sortable
+                             align="center"
+                             width="160">
             </el-table-column>
         </template>
 

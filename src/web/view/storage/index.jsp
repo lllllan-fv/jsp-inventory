@@ -100,6 +100,7 @@
                 dealer: '',
                 // 表格数据
                 table: [],
+                total: '',
             },
             // 校验规则
             rules: {
@@ -231,7 +232,7 @@
                 this.ruleForm.table.forEach(function (item) {
                     sum += item.amount;
                 });
-                return sum;
+                return this.ruleForm.total = sum;
             },
             // 总金额对应的大写金额
             getChineseNumber: function () {
