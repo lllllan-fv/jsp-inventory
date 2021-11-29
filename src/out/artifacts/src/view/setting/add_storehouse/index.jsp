@@ -26,7 +26,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css">
 
     <!-- 4.1.1 animate.min.css -->
-    <link href="https://cdn.bootcdn.net/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/lib
+    <!-- 引入样式 -->s/animate.css/4.1.1/animate.min.css" rel="stylesheet">
 
     <!-- 1.1.2 wow.min.js -->
     <script src="https://cdn.bootcdn.net/ajax/libs/wow/1.1.2/wow.min.js"></script>
@@ -34,7 +35,6 @@
     <!-- 2.6.9 vue.min.js -->
     <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.9/vue.min.js"></script>
 
-    <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <!-- 引入组件库 -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
@@ -56,6 +56,7 @@
         data: {
             cities: cities,
             ruleForm: {
+                group: '仓库',
                 name: '',
                 position: '',
                 principal: '',
@@ -83,6 +84,23 @@
                 this.$refs[formName].validate(function (valid) {
                     console.log(valid);
                     if (valid) {
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/src/TestServlet",
+                            contentType: "application/json",
+                            // dataType: "json",
+                            data: JSON.stringify(this.ruleForm),
+                            success: function (data) {
+                                console.log(data);
+                                data = JSON.stringify(data);
+                                console.log(data);
+                            },
+                            error: function (msg) {
+                                console.log("error");
+                                console.log(msg);
+                            }
+                        });
 
                     } else {
                         // 有错则滑到页面顶部
