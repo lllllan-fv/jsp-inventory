@@ -47,7 +47,7 @@
 </head>
 <body style="padding: 30px">
 
-<div id="addAddressVue">
+<div id="addAddressVue" v-loading.fullscreen.lock="loading">
     <jsp:include page="form.jsp"></jsp:include>
 </div>
 
@@ -55,6 +55,7 @@
     var addAddressVue = new Vue({
         el: '#addAddressVue',
         data: {
+            loading: false,
             group: '',
             cities: cities,
             ruleForm: {
@@ -92,6 +93,8 @@
                 return province;
             },
             submitForm: function (formName) {
+                this.loading = true;
+
                 var success = 0;
                 var data = this.ruleForm;
                 var address = data.position === '' ? null : this.getAddress(data.position[0], data.position[1]);
@@ -132,6 +135,8 @@
                 } else if (success === -1) {
                     this.$message.error('出了点错误，添加失败');
                 }
+
+                this.loading = false;
             },
             resetForm: function (formName) {
                 this.$refs[formName].resetFields();
