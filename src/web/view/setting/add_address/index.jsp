@@ -42,7 +42,7 @@
 
     <%--  滚动条样式  --%>
     <link href="../../../style/index.css" rel="stylesheet">
-    <script src="../cities.js"></script>
+    <script src="cities.js"></script>
 
 </head>
 <body style="padding: 30px">
