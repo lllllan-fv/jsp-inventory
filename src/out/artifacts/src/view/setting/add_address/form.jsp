@@ -14,11 +14,9 @@
          label-width="80px"
          class="demo-ruleForm">
 
-    <%--    <template v-if="group==='仓库">--%>
-    <%--        <el-divider content-position="left">--%>
-    <%--            <h3>供应商信息</h3>--%>
-    <%--        </el-divider>--%>
-    <%--    </template>--%>
+    <el-divider content-position="left">
+        <h3>{{ group }}信息</h3>
+    </el-divider>
 
     <el-form-item :label="group + '名称'" prop="name">
         <el-col span="8">
