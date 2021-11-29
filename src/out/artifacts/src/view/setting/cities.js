@@ -1151,3 +1151,11 @@ cities = [
         ]
     }
 ]
+
+function getAddress(i, j) {
+    cities[i - 1].children.forEach(function (value) {
+        if (value.value === j) {
+            return cities[i - 1].label + "/" + value.label;
+        }
+    })
+}

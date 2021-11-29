@@ -57,6 +57,8 @@ public class DBConnection {
         try {
             stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             rs = stmt.executeQuery(sql);
+
+            System.out.println("查询操作执行成功");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -83,6 +85,8 @@ public class DBConnection {
                     results.add(result);
                 }
             }
+
+            System.out.println("查询操作执行成功");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -97,6 +101,8 @@ public class DBConnection {
         try {
             stmt = con.createStatement();
             count = stmt.executeUpdate(sql);
+
+            System.out.println("更新操作执行成功");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -109,6 +115,8 @@ public class DBConnection {
             if (rs != null) rs.close();
             if (stmt != null) stmt.close();
             if (con != null) con.close();
+
+            System.out.println("数据库关闭成功");
         } catch (SQLException e) {
             e.printStackTrace();
         }

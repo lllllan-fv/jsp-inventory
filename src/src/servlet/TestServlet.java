@@ -12,18 +12,20 @@ import java.io.PrintWriter;
 public class TestServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doPost(request, response);
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=utf-8");
         response.setCharacterEncoding("UTF-8");
 
         PrintWriter printWriter = response.getWriter();
         String returnString = "{\"姓名\":\"张三\", \"年龄\":\"30\"}";
         printWriter.println(returnString);
 
-        printWriter.close();
-    }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response);
+        printWriter.close();
     }
 
 }
