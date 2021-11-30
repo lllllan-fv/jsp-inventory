@@ -66,15 +66,49 @@
         },
         methods: {
             submitForm: function (formName) {
+
+                var status = 0;
+                var msg = '';
+                var data = this.ruleForm;
+
                 this.$refs[formName].validate(function (valid) {
                     console.log(valid);
                     if (valid) {
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/src/CommodityGroupServlet",
+                            async: false,//取消异步请求
+                            data: {
+                                name: data.name,
+                            },
+                            // contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                            success: function (data) {
+                                var strings = data.trim().split(" ");
+                                status = parseInt(strings[0]);
+                                msg = strings[1];
+                            },
+                            error: function (msg) {
+                                status = -1;
+                                console.log(msg);
+                            }
+                        });
 
                     } else {
                         // 有错则滑到页面顶部
                         window.scrollTo(0, 0);
                     }
                 });
+
+                if (status === 1) {
+                    this.$message.success(msg);
+                    this.resetForm('ruleForm');
+                } else if (status === 0) {
+                    this.$message.warning(msg);
+                } else {
+                    this.$message.error('出了点错误，添加失败');
+                }
+
             },
             resetForm: function (formName) {
                 this.$refs[formName].resetFields();
