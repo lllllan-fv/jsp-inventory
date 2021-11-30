@@ -33,9 +33,11 @@ public class CommodityGroup extends HttpServlet {
             sql = "insert commodity_group values(null, '" + name + "')";
             dbConnection.update(sql);
 
-            printWriter.println("1 货品类别添加成功");
+            String json = "{ \"status\": 1, \"message\": \"货品类别添加成功\"}";
+            printWriter.println(json);
         } else {
-            printWriter.println("0 货品类别已存在");
+            String json = "{ \"status\": 0, \"message\": \"货品类别已存在\"}";
+            printWriter.println(json);
         }
 
         printWriter.close();

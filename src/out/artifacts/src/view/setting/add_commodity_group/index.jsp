@@ -84,9 +84,9 @@
                             },
                             // contentType: "application/x-www-form-urlencoded; charset=utf-8",
                             success: function (data) {
-                                var strings = data.trim().split(" ");
-                                status = parseInt(strings[0]);
-                                msg = strings[1];
+                                var json = JSON.parse(data);
+                                status = json.status;
+                                msg = json.message;
                             },
                             error: function (msg) {
                                 status = -1;

@@ -55,7 +55,7 @@
         el: '#addCommodityVue',
         data: {
             options: [
-                {value: '选项1', label: '黄金糕',},
+                {value: '选项1', label: '黄金糕'},
             ],
             ruleForm: {
                 type: '',
@@ -88,6 +88,19 @@
         created: function () {
         },
         beforeMount: function () {
+            $.ajax({
+                type: "POST",
+                url: "/src/select/CommodityGroup",
+                async: false,//取消异步请求
+                data: {},
+                // contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                success: function (data) {
+                    console.log(data);
+                    var json = JSON.parse(data);
+                },
+                error: function (msg) {
+                }
+            });
         }
     });
 </script>
