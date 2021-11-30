@@ -71,7 +71,7 @@
         },
         methods: {
             submitForm: function (formName) {
-                var status = 0;
+                var status = -2;
                 var message = '';
                 var data = this.ruleForm;
 
@@ -112,7 +112,7 @@
                     this.resetForm('ruleForm');
                 } else if (status === 0) {
                     this.$message.warning(message);
-                } else {
+                } else if (status === -1) {
                     this.$message.error('出错了，添加失败');
                 }
             },

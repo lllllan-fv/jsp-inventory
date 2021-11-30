@@ -33,20 +33,28 @@
         <el-col span="8">
             <template v-if="ruleForm.invoice_type.indexOf('采购')!=-1">
                 <el-form-item label="供应商" prop="supplier">
-                    <el-cascader :options="suppliers"
-                                 v-model="ruleForm.supplier"
-                                 filterable clearable
-                                 style="width: 100%">
-                    </el-cascader>
+                    <el-select v-model="ruleForm.supplier"
+                               filterable clearable
+                               style="width: 100%">
+                        <el-option v-for="item in suppliers"
+                                   :key="item.value"
+                                   :value="item.value"
+                                   :label="item.label">
+                        </el-option>
+                    </el-select>
                 </el-form-item>
             </template>
             <template v-else-if="ruleForm.invoice_type.indexOf('销售')!=-1">
                 <el-form-item label="客户" prop="customer">
-                    <el-cascader :options="customers"
-                                 v-model="ruleForm.customer"
-                                 filterable clearable
-                                 style="width: 100%">
-                    </el-cascader>
+                    <el-select v-model="ruleForm.customer"
+                               filterable clearable
+                               style="width: 100%">
+                        <el-option v-for="item in customers"
+                                   :key="item.value"
+                                   :value="item.value"
+                                   :label="item.label">
+                        </el-option>
+                    </el-select>
                 </el-form-item>
             </template>
         </el-col>

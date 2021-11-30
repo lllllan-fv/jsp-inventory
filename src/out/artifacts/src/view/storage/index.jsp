@@ -53,10 +53,17 @@
 </div>
 
 <script>
-    <%-- 货品对应【编码、类别、库存】 --%>
-    var commodityMap = new Map([
-        ['货品', {id: '2', type: '3', inventory: 4}],
+    var taskMap = new Map([
+        ["3-1", '采购入库'],
+        ["3-2", '生产入库'],
+        ["3-3", '退货入库'],
+        ["4-1", '销售出库'],
+        ["4-2", '消耗出库'],
+        ["4-3", '退货出库'],
+        ["5-1", '库存调拨'],
     ]);
+    <%-- 货品对应【编码、类别、库存】 --%>
+    var commodityMap = new Map([]);
     var storageVue = new Vue({
         el: '#storageVue',
         data: {
@@ -69,22 +76,14 @@
                 price: '',
                 inventory: '',
                 quantity: '',
-                amount: '',
+                amount: ''
             },
             // 供应商列表
-            suppliers: [
-                {value: '供应商', label: '供应商'},
-            ],
+            suppliers: [],
             // 客户列表
-            customers: [
-                {value: '客户', label: '客户'},
-            ],
+            customers: [],
             // 仓库列表
-            storehouses: [
-                {value: '一号仓库', label: '一号仓库', disabled: false},
-                {value: '二号仓库', label: '二号仓库', disabled: false},
-                {value: '三号仓库', label: '三号仓库', disabled: false},
-            ],
+            storehouses: [],
             // 货品列表
             commodities: [
                 {value: '货品', label: '货品'},
@@ -209,21 +208,91 @@
                 }
             },
             submitForm: function (formName) {
+                console.log(this.ruleForm);
+
+                var status = -2;
+                var message = '';
+
                 this.$refs[formName].validate(function (valid) {
                     console.log(valid);
                     if (valid) {
+
 
                     } else {
                         // 有错则滑到页面顶部
                         window.scrollTo(0, 0);
                     }
                 });
+
+                if (status === 1) {
+                    this.$message.success(message);
+                    this.resetForm('ruleForm');
+                } else if (status === 0) {
+                    this.$message.warning(message);
+                } else if (status === -1) {
+                    this.$message.error("出错了，操作失败");
+                }
             },
             resetForm: function (formName) {
+                this.$refs[formName].resetFields();
                 this.ruleForm.table.splice(0, this.ruleForm.table.length);
                 this.addRow();
-                this.$refs[formName].resetFields();
             },
+            initAddressData: function () {
+                var addresses = [];
+                $.ajax({
+                    type: "POST",
+                    url: "/src/select/Address",
+                    async: false,//取消异步请求
+                    data: {},
+                    // contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                    success: function (data) {
+                        var json = JSON.parse(data);
+                        console.log(json);
+                        addresses = json.code;
+                    },
+                    error: function (msg) {
+                        console.log(msg);
+                    }
+                });
+
+                var storehouses = [], suppliers = [], customers = [];
+                addresses.forEach(function (item) {
+                    if (item.type === '仓库') {
+                        storehouses.push({value: item.id, label: item.name + " - " + item.address, disabled: false});
+                    } else if (item.type === '供应商') {
+                        suppliers.push({value: item.id, label: item.name + " - " + item.address});
+                    } else {
+                        customers.push({value: item.id, label: item.name + " - " + item.address});
+                    }
+                });
+                this.storehouses = storehouses;
+                this.suppliers = suppliers;
+                this.customers = customers;
+            },
+            initCommodityData: function () {
+                var commodities = [];
+                $.ajax({
+                    type: "POST",
+                    url: "/src/select/Commodity",
+                    async: false,//取消异步请求
+                    data: {},
+                    // contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                    success: function (data) {
+                        var json = JSON.parse(data);
+                        console.log(json);
+                        commodities = json.code;
+                    },
+                    error: function (msg) {
+                        console.log(msg);
+                    }
+                });
+
+                commodities.forEach(function (item) {
+                    // ['货品', {id: '2', type: '3', inventory: 4}],
+                    commodityMap.set(item.name, {id: item.id, type_id: item.type_id, type: item.type, inventory: 0});
+                });
+            }
         },
         computed: {
             // 实时计算总金额
@@ -244,30 +313,12 @@
         beforeMount: function () {
             this.addRow();
             var current = window.parent.indexVue.currentActive;
-            switch (current) {
-                case "3-1":
-                    this.task = '采购入库';
-                    break;
-                case "3-2":
-                    this.task = '生产入库';
-                    break;
-                case "3-3":
-                    this.task = '退货入库';
-                    break;
-                case "4-1":
-                    this.task = '销售出库';
-                    break;
-                case "4-2":
-                    this.task = '消耗出库';
-                    break;
-                case "4-3":
-                    this.task = '退货出库';
-                    break;
-                case "5-1":
-                    this.task = '库存调拨';
-                    break;
-            }
-            this.ruleForm.invoice_type = this.task;
+            this.ruleForm.invoice_type = this.task = taskMap.get(current);
+
+            // 获取所有 【仓库 | 供应商 | 客户】 的名称和地址
+            this.initAddressData();
+
+            // this.initCommodityData();
         },
     });
 </script>

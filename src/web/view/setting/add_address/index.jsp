@@ -92,7 +92,7 @@
                 return province;
             },
             submitForm: function (formName) {
-                var status = 0;
+                var status = -2;
                 var message = '';
                 var data = this.ruleForm;
                 var address = data.position === '' ? null : this.getAddress(data.position[0], data.position[1]);
@@ -132,9 +132,9 @@
                 if (status === 1) {
                     this.$message.success(message);
                     this.resetForm('ruleForm');
-                } else if (status == 0) {
+                } else if (status === 0) {
                     this.$message.warning(message);
-                } else {
+                } else if (status === -1) {
                     this.$message.error("出错了，添加失败");
                 }
             },
