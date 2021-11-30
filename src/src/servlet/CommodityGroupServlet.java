@@ -10,9 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 @WebServlet("/CommodityGroupServlet")
 public class CommodityGroupServlet extends HttpServlet {
@@ -26,17 +24,12 @@ public class CommodityGroupServlet extends HttpServlet {
         DBConnection dbConnection = new DBConnection();
         dbConnection.createConnection();
 
-        String sql = "select * from commodity_group";
+        String sql = "select * from commodity_group where name='" + name + "'";
         ArrayList<Map<String, String>> list = dbConnection.queryForList(sql);
-
-        Set<String> set = new HashSet<>();
-        for (Map<String, String> map : list) {
-            set.add(map.get("name"));
-        }
 
         PrintWriter printWriter = response.getWriter();
 
-        if (!set.contains(name)) {
+        if (list.isEmpty()) {
             sql = "insert commodity_group values(null, '" + name + "')";
             dbConnection.update(sql);
 

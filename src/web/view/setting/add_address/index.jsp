@@ -47,7 +47,7 @@
 </head>
 <body style="padding: 30px">
 
-<div id="addAddressVue" v-loading.fullscreen.lock="loading">
+<div id="addAddressVue">
     <jsp:include page="form.jsp"></jsp:include>
 </div>
 
@@ -55,7 +55,6 @@
     var addAddressVue = new Vue({
         el: '#addAddressVue',
         data: {
-            loading: false,
             group: '',
             cities: cities,
             ruleForm: {
@@ -93,9 +92,8 @@
                 return province;
             },
             submitForm: function (formName) {
-                this.loading = true;
-
-                var success = 0;
+                var status = 0;
+                var message = '';
                 var data = this.ruleForm;
                 var address = data.position === '' ? null : this.getAddress(data.position[0], data.position[1]);
 
@@ -115,10 +113,12 @@
                             },
                             // contentType: "application/x-www-form-urlencoded; charset=utf-8",
                             success: function (data) {
-                                success = 1;
+                                var strings = data.trim().split(" ");
+                                status = parseInt(strings[0]);
+                                message = strings[1];
                             },
                             error: function (msg) {
-                                success = -1;
+                                status = -1;
                             }
                         });
 
@@ -128,15 +128,15 @@
                     }
                 });
 
-                if (success === 1) {
-                    // 添加成功，清空页面
-                    this.resetForm('ruleForm');
-                    this.$message.success('添加成功');
-                } else if (success === -1) {
-                    this.$message.error('出了点错误，添加失败');
-                }
 
-                this.loading = false;
+                if (status === 1) {
+                    this.$message.success(message);
+                    this.resetForm('ruleForm');
+                } else if (status == 0) {
+                    this.$message.warning(message);
+                } else {
+                    this.$message.error("出错了，添加失败");
+                }
             },
             resetForm: function (formName) {
                 this.$refs[formName].resetFields();
