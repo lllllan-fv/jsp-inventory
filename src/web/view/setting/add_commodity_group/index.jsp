@@ -77,7 +77,7 @@
 
                         $.ajax({
                             type: "POST",
-                            url: "/src/CommodityGroupServlet",
+                            url: "/src/insert/CommodityGroup",
                             async: false,//取消异步请求
                             data: {
                                 name: data.name,

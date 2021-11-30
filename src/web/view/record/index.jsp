@@ -89,7 +89,7 @@
         methods: {},
         created: function () {
         },
-        beforeMounted: function () {
+        beforeMount: function () {
         }
     })
 </script>

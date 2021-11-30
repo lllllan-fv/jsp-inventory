@@ -1,4 +1,4 @@
-package servlet;
+package servlet.insert;
 
 import DB.DBConnection;
 
@@ -14,8 +14,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-@WebServlet("/AddressServlet")
-public class AddressServlet extends HttpServlet {
+@WebServlet("/insert/Address")
+public class Address extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");

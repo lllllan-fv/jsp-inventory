@@ -102,7 +102,7 @@
                     if (valid) {
                         $.ajax({
                             type: "POST",
-                            url: "/src/AddressServlet",
+                            url: "/src/insert/Address",
                             async: false,//取消异步请求
                             data: {
                                 group: data.group,

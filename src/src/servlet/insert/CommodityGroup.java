@@ -1,4 +1,4 @@
-package servlet;
+package servlet.insert;
 
 import DB.DBConnection;
 
@@ -12,8 +12,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Map;
 
-@WebServlet("/CommodityGroupServlet")
-public class CommodityGroupServlet extends HttpServlet {
+@WebServlet("/insert/CommodityGroup")
+public class CommodityGroup extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
