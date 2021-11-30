@@ -106,7 +106,7 @@
                 } else if (status === 0) {
                     this.$message.warning(msg);
                 } else {
-                    this.$message.error('出了点错误，添加失败');
+                    this.$message.error('出错了，添加失败');
                 }
 
             },

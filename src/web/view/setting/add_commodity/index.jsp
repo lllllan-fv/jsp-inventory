@@ -71,15 +71,50 @@
         },
         methods: {
             submitForm: function (formName) {
+                var status = 0;
+                var message = '';
+                var data = this.ruleForm;
+
                 this.$refs[formName].validate(function (valid) {
                     console.log(valid);
                     if (valid) {
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/src/insert/Commodity",
+                            async: false,//取消异步请求
+                            data: {
+                                type: data.type,
+                                name: data.name,
+                            },
+                            // contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                            success: function (data) {
+                                var json = JSON.parse(data);
+                                console.log(json);
+
+                                status = json.status;
+                                message = json.message;
+                            },
+                            error: function (msg) {
+                                status = -1;
+                            }
+                        });
 
                     } else {
                         // 有错则滑到页面顶部
                         window.scrollTo(0, 0);
                     }
                 });
+
+
+                if (status === 1) {
+                    this.$message.success(message);
+                    this.resetForm('ruleForm');
+                } else if (status === 0) {
+                    this.$message.warning(message);
+                } else {
+                    this.$message.error('出错了，添加失败');
+                }
             },
             resetForm: function (formName) {
                 this.$refs[formName].resetFields();
@@ -87,6 +122,7 @@
         },
         created: function () {
         },
+        // 获取所有的货品类别
         beforeMount: function () {
             var group = [];
             $.ajax({
