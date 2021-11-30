@@ -88,6 +88,7 @@
         created: function () {
         },
         beforeMount: function () {
+            var group = [];
             $.ajax({
                 type: "POST",
                 url: "/src/select/CommodityGroup",
@@ -95,12 +96,21 @@
                 data: {},
                 // contentType: "application/x-www-form-urlencoded; charset=utf-8",
                 success: function (data) {
-                    console.log(data);
                     var json = JSON.parse(data);
+                    console.log(json);
+
+                    group = json.code;
                 },
                 error: function (msg) {
                 }
             });
+
+            console.log(group);
+            var options = [];
+            group.forEach(function (item) {
+                options.push({value: item.id, label: item.name});
+            })
+            this.options = options;
         }
     });
 </script>
