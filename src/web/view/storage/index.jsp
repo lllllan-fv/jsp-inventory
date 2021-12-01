@@ -62,8 +62,9 @@
         ["4-3", '退货出库'],
         ["5-1", '库存调拨'],
     ]);
-    <%-- 货品对应【编码、类别、库存】 --%>
+    <%-- 货品对应【编码、类别】 --%>
     var commodityMap = new Map([]);
+    var inventoryMap = new Map([]);
     var storageVue = new Vue({
         el: '#storageVue',
         data: {
@@ -74,7 +75,7 @@
                 commodity_type: '',
                 commodity_name: '',
                 price: '',
-                inventory: '',
+                // inventory: '',
                 quantity: '',
                 amount: ''
             },
@@ -85,9 +86,7 @@
             // 仓库列表
             storehouses: [],
             // 货品列表
-            commodities: [
-                {value: '货品', label: '货品'},
-            ],
+            commodities: [],
             // 表单数据
             ruleForm: {
                 invoice_type: '',
@@ -138,26 +137,21 @@
             tableHeight: function () {
                 return this.ruleForm.table.length;
             },
-            // 返回货品对应的编码
-            getID: function (name) {
-                if (name.length > 0) {
-                    return commodityMap.get(name['0']).id;
-                }
-                return '暂无数据';
-            },
             // 返回货品对应的类型
-            getType: function (name) {
-                if (name.length > 0) {
-                    return commodityMap.get(name['0']).type;
+            getType: function (id) {
+                if (id !== undefined) {
+                    return commodityMap.get(id.toString()).type;
                 }
-                return '暂无数据';
+                return '';
             },
             // 返回货品对应的库存
-            getInventory: function (name) {
-                if (name.length > 0) {
-                    return commodityMap.get(name['0']).inventory;
+            getInventory: function (id) {
+                if (id !== undefined && this.task.indexOf('入库') === -1) {
+                    var store = this.ruleForm.storehouse_out;
+                    var inventory = inventoryMap.get(store + '-' + id.toString());
+                    return inventory === undefined ? 0 : inventory;
                 }
-                return 0;
+                return '暂无数据';
             },
             // 根据数量和单价计算金额
             getAmount: function (quantity, price) {
@@ -189,6 +183,20 @@
                     }
                 })
             },
+            // 表格中不允许出现多行相同货品
+            chooseCommodity: function (x) {
+                console.log(x);
+                var vis = new Map([]);
+                this.ruleForm.table.forEach(function (data) {
+                    console.log(data);
+                    vis.set(data.commodity_id, 1);
+                });
+                console.log(vis);
+                this.commodities.forEach(function (item) {
+                    item.disabled = vis.get(item.value) !== undefined;
+                })
+                console.log(this.commodities);
+            },
             // 表格数据中添加一行空数据
             addRow: function () {
                 var tmp = {};
@@ -207,17 +215,26 @@
                     });
                 }
             },
+            checkInventory: function () {
+                return false;
+            },
             submitForm: function (formName) {
                 console.log(this.ruleForm);
 
                 var status = -2;
-                var message = '';
+                var message = '出错了，操作失败';
 
+                var flag = this.checkInventory();
                 this.$refs[formName].validate(function (valid) {
                     console.log(valid);
                     if (valid) {
 
+                        if (flag) {
 
+                        } else {
+                            status = -1;
+                            message = '库存不足';
+                        }
                     } else {
                         // 有错则滑到页面顶部
                         window.scrollTo(0, 0);
@@ -230,7 +247,7 @@
                 } else if (status === 0) {
                     this.$message.warning(message);
                 } else if (status === -1) {
-                    this.$message.error("出错了，操作失败");
+                    this.$message.error(message);
                 }
             },
             resetForm: function (formName) {
@@ -272,9 +289,10 @@
             },
             initCommodityData: function () {
                 var commodities = [];
+
                 $.ajax({
                     type: "POST",
-                    url: "/src/select/Inventory",
+                    url: "/src/select/Commodity",
                     async: false,//取消异步请求
                     data: {},
                     // contentType: "application/x-www-form-urlencoded; charset=utf-8",
@@ -288,10 +306,39 @@
                     }
                 });
 
-                // commodities.forEach(function (item) {
-                //     // ['货品', {id: '2', type: '3', inventory: 4}],
-                //     commodityMap.set(item.name, {id: item.id, type_id: item.type_id, type: item.type, inventory: 0});
-                // });
+                var data = [];
+                commodities.forEach(function (item) {
+                    data.push({value: item.id, label: item.name, type: item.type_name, disabled: false});
+
+                    commodityMap.set(item.id, {name: item.name, type: item.type_name});
+                });
+                this.commodities = data;
+            },
+            initInventoryData: function () {
+                var inventory = [];
+
+                $.ajax({
+                    type: "POST",
+                    url: "/src/select/Inventory",
+                    async: false,//取消异步请求
+                    data: {},
+                    // contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                    success: function (data) {
+                        var json = JSON.parse(data);
+                        console.log(json);
+                        inventory = json.code;
+                    },
+                    error: function (msg) {
+                        console.log(msg);
+                    }
+                });
+
+                inventory.forEach(function (item) {
+                    inventoryMap.set(item.storehouse + '-' + item.commodity_id, item.inventory);
+                })
+
+                console.log(inventoryMap);
+                console.log(inventoryMap.get('53-1'));
             }
         },
         computed: {
@@ -317,7 +364,9 @@
 
             // 获取所有 【仓库 | 供应商 | 客户】 的名称和地址
             this.initAddressData();
-
+            // 获取所有仓库货品的库存信息
+            this.initInventoryData();
+            // 获取所有货品的编码和类别
             this.initCommodityData();
         },
     });

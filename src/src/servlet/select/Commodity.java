@@ -23,7 +23,7 @@ public class Commodity extends HttpServlet {
         DBConnection dbConnection = new DBConnection();
         dbConnection.createConnection();
 
-        String sql = " select a.id, a.name, b.id as type_id, b.name as type from commodity as a, commodity_group as b where a.type = b.id";
+        String sql = "select * from view_commodity";
         ArrayList<Map<String, String>> maps = dbConnection.queryForList(sql);
 
         boolean first = true;
@@ -33,10 +33,13 @@ public class Commodity extends HttpServlet {
             first = false;
 
             json.append("{");
-            json.append(" \"id\": ").append(map.get("id"));
-            json.append(", \"name\": \"").append(map.get("name")).append("\"");
-            json.append(", \"type_id\": ").append(map.get("type_id"));
-            json.append(", \"type\": \"").append(map.get("type")).append("\"");
+            boolean flag = false;
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                if (flag) json.append(", ");
+                flag = true;
+
+                json.append(" \"").append(entry.getKey()).append("\": \"").append(entry.getValue()).append("\"");
+            }
             json.append("}");
         }
         json.append("] }");
