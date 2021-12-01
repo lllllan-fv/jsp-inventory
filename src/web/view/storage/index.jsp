@@ -274,7 +274,7 @@
                 var commodities = [];
                 $.ajax({
                     type: "POST",
-                    url: "/src/select/Commodity",
+                    url: "/src/select/Inventory",
                     async: false,//取消异步请求
                     data: {},
                     // contentType: "application/x-www-form-urlencoded; charset=utf-8",
@@ -288,10 +288,10 @@
                     }
                 });
 
-                commodities.forEach(function (item) {
-                    // ['货品', {id: '2', type: '3', inventory: 4}],
-                    commodityMap.set(item.name, {id: item.id, type_id: item.type_id, type: item.type, inventory: 0});
-                });
+                // commodities.forEach(function (item) {
+                //     // ['货品', {id: '2', type: '3', inventory: 4}],
+                //     commodityMap.set(item.name, {id: item.id, type_id: item.type_id, type: item.type, inventory: 0});
+                // });
             }
         },
         computed: {
@@ -318,7 +318,7 @@
             // 获取所有 【仓库 | 供应商 | 客户】 的名称和地址
             this.initAddressData();
 
-            // this.initCommodityData();
+            this.initCommodityData();
         },
     });
 </script>

@@ -274,7 +274,7 @@
                 var commodities = [];
                 $.ajax({
                     type: "POST",
-                    url: "/src/select/Commodity",
+                    url: "/src/select/Inventory",
                     async: false,//取消异步请求
                     data: {},
                     // contentType: "application/x-www-form-urlencoded; charset=utf-8",
@@ -318,7 +318,7 @@
             // 获取所有 【仓库 | 供应商 | 客户】 的名称和地址
             this.initAddressData();
 
-            // this.initCommodityData();
+            this.initCommodityData();
         },
     });
 </script>
