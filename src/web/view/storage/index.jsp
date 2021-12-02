@@ -71,9 +71,7 @@
             task: '',
             // 表格的空对象
             emptyTableData: {
-                commodity_id: '',
-                commodity_type: '',
-                commodity_name: '',
+                commodity: '',
                 price: '',
                 // inventory: '',
                 quantity: '',
@@ -164,7 +162,7 @@
             // （如果是出库）校验数量不超过库存
             validateQuantity: function (item) {
                 if (this.task.indexOf('入库') === -1) {
-                    var inventory = this.getInventory(item.commodity_id);
+                    var inventory = this.getInventory(item.commodity);
                     if (inventory === '暂无数据') inventory = 999999999;
                     item.quantity = Math.min(inventory, item.quantity);
                 }
@@ -186,7 +184,7 @@
                 this.validateQuantity(item);
                 var vis = new Map([]);
                 this.ruleForm.table.forEach(function (data) {
-                    vis.set(data.commodity_id, 1);
+                    vis.set(data.commodity, 1);
                 });
                 this.commodities.forEach(function (item) {
                     item.disabled = vis.get(item.value) !== undefined;
@@ -216,13 +214,8 @@
             submitForm: function (formName) {
                 console.log(this.ruleForm);
 
-                var data = {};
-                data.invoice_type = this.ruleForm.invoice_type;
-                data.storehouse_in = this.ruleForm.storehouse_in;
-                data.dealer = this.ruleForm.dealer;
+                var data = this.ruleForm;
                 data.date = this.getDate(new Date(this.ruleForm.date));
-
-                console.log(data);
 
                 var status = -2;
                 var message = '出错了，操作失败';
@@ -235,12 +228,16 @@
                             type: "POST",
                             url: "/src/insert/Record",
                             async: false,//取消异步请求
-                            data: data,
+                            data: JSON.stringify(data),
+                            datatype: 'json',
                             // contentType: "application/x-www-form-urlencoded; charset=utf-8",
                             success: function (data) {
                                 console.log(data);
-                                // var json = JSON.parse(data);
-                                // console.log(json);
+                                var json = JSON.parse(data);
+                                console.log(json);
+
+                                status = json.status;
+                                message = json.message;
                             },
                             error: function (msg) {
                                 console.log(msg);

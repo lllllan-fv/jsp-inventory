@@ -19,28 +19,28 @@
         <el-table-column type="index" width="50">
         </el-table-column>
 
-        <el-table-column prop="commodity_id"
+        <el-table-column prop="commodity"
                          label="货品编码"
                          width="180">
             <template slot-scope="scope">
-                {{ scope.row.commodity_id[0] }}
+                {{ scope.row.commodity[0] }}
             </template>
         </el-table-column>
         <el-table-column prop="commodity_type"
                          label="货品类别"
                          width="180">
             <template slot-scope="scope">
-                {{ getType(scope.row.commodity_id[0]) }}
+                {{ getType(scope.row.commodity[0]) }}
             </template>
         </el-table-column>
         <el-table-column prop="commodity_name"
                          label="货品名称">
             <template slot-scope="scope">
                 <%-- 表单中的表格验证 --%>
-                <el-form-item :prop="'table.'+scope.$index+'.commodity_id'"
+                <el-form-item :prop="'table.'+scope.$index+'.commodity'"
                               :rules="rules.commodity_name">
                     <el-select filterable clearable
-                               v-model="scope.row.commodity_id"
+                               v-model="scope.row.commodity"
                                @change="chooseCommodity(scope.row)"
                                placeholder="请选择"
                                style="width: 100%">
@@ -68,7 +68,7 @@
         <el-table-column prop="inventory"
                          label="库存数量">
             <template slot-scope="scope">
-                {{ getInventory(scope.row.commodity_id[0]) }}
+                {{ getInventory(scope.row.commodity[0]) }}
             </template>
         </el-table-column>
         <el-table-column label="数量">
