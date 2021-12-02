@@ -165,7 +165,6 @@
             validateQuantity: function (item) {
                 if (this.task.indexOf('入库') === -1) {
                     var inventory = this.getInventory(item.commodity_id);
-                    console.log(inventory);
                     if (inventory === '暂无数据') inventory = 999999999;
                     item.quantity = Math.min(inventory, item.quantity);
                 }
@@ -211,17 +210,42 @@
                     });
                 }
             },
+            getDate: function (d) {
+                return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+            },
             submitForm: function (formName) {
                 console.log(this.ruleForm);
 
+                var data = {};
+                data.invoice_type = this.ruleForm.invoice_type;
+                data.storehouse_in = this.ruleForm.storehouse_in;
+                data.dealer = this.ruleForm.dealer;
+                data.date = this.getDate(new Date(this.ruleForm.date));
+
+                console.log(data);
+
                 var status = -2;
                 var message = '出错了，操作失败';
-                var data = this.ruleForm;
 
                 this.$refs[formName].validate(function (valid) {
                     console.log(valid);
                     if (valid) {
 
+                        $.ajax({
+                            type: "POST",
+                            url: "/src/insert/Record",
+                            async: false,//取消异步请求
+                            data: data,
+                            // contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                            success: function (data) {
+                                console.log(data);
+                                // var json = JSON.parse(data);
+                                // console.log(json);
+                            },
+                            error: function (msg) {
+                                console.log(msg);
+                            }
+                        });
 
                     } else {
                         // 有错则滑到页面顶部
@@ -324,9 +348,6 @@
                 inventory.forEach(function (item) {
                     inventoryMap.set(item.storehouse + '-' + item.commodity_id, item.inventory);
                 })
-
-                console.log(inventoryMap);
-                console.log(inventoryMap.get('53-1'));
             }
         },
         computed: {
