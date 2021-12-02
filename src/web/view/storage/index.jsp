@@ -146,7 +146,7 @@
             },
             // 返回货品对应的库存
             getInventory: function (id) {
-                if (id !== undefined && this.task.indexOf('入库') === -1) {
+                if (id !== undefined && id !== '' && id !== null && this.task.indexOf('入库') === -1) {
                     var store = this.ruleForm.storehouse_out;
                     var inventory = inventoryMap.get(store + '-' + id.toString());
                     return inventory === undefined ? 0 : inventory;
@@ -163,12 +163,11 @@
             },
             // （如果是出库）校验数量不超过库存
             validateQuantity: function (item) {
-                if (this.task.indexOf('出库') !== -1) {
-                    var tot = 0;
-                    this.ruleForm.table.forEach(function (value) {
-                        //?
-                    });
-                    item.quantity = Math.min(item.quantity - tot, item.inventory);
+                if (this.task.indexOf('入库') === -1) {
+                    var inventory = this.getInventory(item.commodity_id);
+                    console.log(inventory);
+                    if (inventory === '暂无数据') inventory = 999999999;
+                    item.quantity = Math.min(inventory, item.quantity);
                 }
             },
             // 禁止发货和收货仓库重选
@@ -184,18 +183,15 @@
                 })
             },
             // 表格中不允许出现多行相同货品
-            chooseCommodity: function (x) {
-                console.log(x);
+            chooseCommodity: function (item) {
+                this.validateQuantity(item);
                 var vis = new Map([]);
                 this.ruleForm.table.forEach(function (data) {
-                    console.log(data);
                     vis.set(data.commodity_id, 1);
                 });
-                console.log(vis);
                 this.commodities.forEach(function (item) {
                     item.disabled = vis.get(item.value) !== undefined;
                 })
-                console.log(this.commodities);
             },
             // 表格数据中添加一行空数据
             addRow: function () {
@@ -215,26 +211,18 @@
                     });
                 }
             },
-            checkInventory: function () {
-                return false;
-            },
             submitForm: function (formName) {
                 console.log(this.ruleForm);
 
                 var status = -2;
                 var message = '出错了，操作失败';
+                var data = this.ruleForm;
 
-                var flag = this.checkInventory();
                 this.$refs[formName].validate(function (valid) {
                     console.log(valid);
                     if (valid) {
 
-                        if (flag) {
 
-                        } else {
-                            status = -1;
-                            message = '库存不足';
-                        }
                     } else {
                         // 有错则滑到页面顶部
                         window.scrollTo(0, 0);

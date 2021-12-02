@@ -23,14 +23,14 @@
                          label="货品编码"
                          width="180">
             <template slot-scope="scope">
-                {{ scope.row.commodity_name[0] }}
+                {{ scope.row.commodity_id[0] }}
             </template>
         </el-table-column>
         <el-table-column prop="commodity_type"
                          label="货品类别"
                          width="180">
             <template slot-scope="scope">
-                {{ getType(scope.row.commodity_name[0]) }}
+                {{ getType(scope.row.commodity_id[0]) }}
             </template>
         </el-table-column>
         <el-table-column prop="commodity_name"
@@ -41,7 +41,7 @@
                               :rules="rules.commodity_name">
                     <el-select filterable clearable
                                v-model="scope.row.commodity_id"
-                               @change="chooseCommodity"
+                               @change="chooseCommodity(scope.row)"
                                placeholder="请选择"
                                style="width: 100%">
                         <el-option v-for="item in commodities"
@@ -68,7 +68,7 @@
         <el-table-column prop="inventory"
                          label="库存数量">
             <template slot-scope="scope">
-                {{ getInventory(scope.row.commodity_name[0]) }}
+                {{ getInventory(scope.row.commodity_id[0]) }}
             </template>
         </el-table-column>
         <el-table-column label="数量">
