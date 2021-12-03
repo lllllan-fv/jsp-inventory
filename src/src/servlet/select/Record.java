@@ -12,8 +12,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Map;
 
-@WebServlet("/select/Inventory")
-public class Inventory extends HttpServlet {
+@WebServlet("/select/Record")
+public class Record extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
@@ -23,11 +23,11 @@ public class Inventory extends HttpServlet {
         DBConnection dbConnection = new DBConnection();
         dbConnection.createConnection();
 
-        String sql = " select * from view_inventory_detail";
+        String sql = "select * from view_record_detail";
         ArrayList<Map<String, String>> maps = dbConnection.queryForList(sql);
 
         boolean first = true;
-        StringBuffer json = new StringBuffer("{ \"status\": 1, \"message\": \"玛卡巴卡\", \"code\": [");
+        StringBuffer json = new StringBuffer("{ \"status\": 1, \"message\": \"芜湖\", \"code\": [");
         for (Map<String, String> map : maps) {
             if (!first) json.append(", ");
             first = false;
@@ -48,6 +48,7 @@ public class Inventory extends HttpServlet {
 
         printWriter.close();
         dbConnection.close();
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

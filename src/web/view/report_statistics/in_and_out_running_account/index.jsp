@@ -90,31 +90,29 @@
                     ]
                 },
             ],
-            tableData: [
-                {
-                    date: '',
-                    storehouse_out: '',
-                    storehouse_in: '',
-                    customer: '',
-                    supplier: '',
-                    invoice_type: '',
-                    invoice_id: '',
-                    commodity_id: '',
-                    commodity_type: '',
-                    commodity_name: '',
-                    description: '',
-                    quantity: '',
-                    price: '',
-                    amount: '',
-                },
-            ],
+            tableData: [],
         },
-        methods: {}
-        , created: function () {
-
+        methods: {},
+        created: function () {
         },
         beforeMount: function () {
-
+            var record = [];
+            $.ajax({
+                type: "POST",
+                url: "/src/select/Record",
+                async: false,//取消异步请求
+                data: {},
+                // contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                success: function (data) {
+                    var json = JSON.parse(data);
+                    console.log(json);
+                    record = json.code;
+                },
+                error: function (msg) {
+                    console.log(msg);
+                }
+            });
+            this.tableData = record;
         }
     });
 </script>

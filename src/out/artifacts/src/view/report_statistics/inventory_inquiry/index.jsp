@@ -56,7 +56,7 @@
         data: {
             search: '',
             tableHeader: [
-                {prop: 'storehouse', label: '仓库'},
+                {prop: 'storehouse_name', label: '仓库'},
                 {prop: 'commodity_id', label: '货品编码'},
                 {prop: 'commodity_type', label: '货品类别'},
                 {prop: 'commodity_name', label: '货品名称'},
@@ -68,7 +68,7 @@
             ],
             tableData: [
                 {
-                    storehouse: '',
+                    storehouse_name: '',
                     commodity_id: '',
                     commodity_type: '',
                     commodity_name: '',
@@ -80,66 +80,26 @@
                 },
             ],
         },
-        methods: {
-            getInventory: function () {
-                var inventory = [];
-                $.ajax({
-                    type: "POST",
-                    url: "/src/select/Inventory",
-                    async: false,//取消异步请求
-                    data: {},
-                    // contentType: "application/x-www-form-urlencoded; charset=utf-8",
-                    success: function (data) {
-                        var json = JSON.parse(data);
-                        console.log(json);
-                        inventory = json.code;
-                    },
-                    error: function (msg) {
-                        console.log(msg);
-                    }
-                });
-
-                var table = [];
-                inventory.forEach(function (value) {
-                    console.log(value.storehouse);
-                    if (value.storehouse !== 'null') {
-                        table.push(value);
-                    }
-                });
-                return table;
-            },
-            getAddress: function () {
-                var address = [];
-                $.ajax({
-                    type: "POST",
-                    url: "/src/select/Address",
-                    async: false,//取消异步请求
-                    data: {},
-                    // contentType: "application/x-www-form-urlencoded; charset=utf-8",
-                    success: function (data) {
-                        var json = JSON.parse(data);
-                        console.log(json);
-                        address = json.code;
-                    },
-                    error: function (msg) {
-                        console.log(msg);
-                    }
-                });
-                return address;
-            }
-        },
+        methods: {},
         created: function () {
         },
         beforeMount: function () {
-            var table = this.getInventory();
-            var address = this.getAddress();
+            var table = [];
 
-            table.forEach(function (value) {
-                address.forEach(function (value1) {
-                    if (parseInt(value.storehouse) === value1.id) {
-                        value.storehouse = value1.name;
-                    }
-                })
+            $.ajax({
+                type: "POST",
+                url: "/src/select/Inventory",
+                async: false,//取消异步请求
+                data: {},
+                // contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                success: function (data) {
+                    var json = JSON.parse(data);
+                    console.log(json);
+                    table = json.code;
+                },
+                error: function (msg) {
+                    console.log(msg);
+                }
             });
 
             this.tableData = table;
