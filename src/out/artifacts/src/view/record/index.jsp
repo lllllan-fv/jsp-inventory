@@ -57,7 +57,7 @@
                 {prop: 'storehouse_out', label: '调出仓库'},
                 {prop: 'storehouse_in', label: '调入仓库'},
                 {prop: 'date', label: '调拨日期'},
-                {prop: 'dealer', label: '经手人'},
+                // {prop: 'dealer', label: '经手人'},
                 {
                     prop: 'details', label: '调拨明细',
                     children: [
@@ -68,7 +68,7 @@
                         {prop: 'amount', label: '金额'},
                     ]
                 },
-                {prop: 'total', label: '合计金额'},
+                // {prop: 'total', label: '合计金额'},
             ],
             tableData: [
                 {
@@ -90,6 +90,30 @@
         created: function () {
         },
         beforeMount: function () {
+            var record = [];
+            $.ajax({
+                type: "POST",
+                url: "/src/select/Record",
+                async: false,//取消异步请求
+                data: {},
+                // contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                success: function (data) {
+                    var json = JSON.parse(data);
+                    console.log(json);
+                    record = json.code;
+                },
+                error: function (msg) {
+                    console.log(msg);
+                }
+            });
+
+            var table = [];
+            record.forEach(function (value) {
+                if (value.invoice_type === '库存调拨') {
+                    table.push(value);
+                }
+            })
+            this.tableData = table;
         }
     })
 </script>
