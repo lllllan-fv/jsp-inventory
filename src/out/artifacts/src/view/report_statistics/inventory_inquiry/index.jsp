@@ -61,10 +61,10 @@
                 {prop: 'commodity_type', label: '货品类别'},
                 {prop: 'commodity_name', label: '货品名称'},
                 {prop: 'in_quantity', label: '入库总量'},
-                {prop: 'in_total_amount', label: '入库总金额'},
+                {prop: 'in_amount', label: '入库总金额'},
                 {prop: 'out_quantity', label: '出库总量'},
-                {prop: 'out_total_amount', label: '出库总金额'},
-                {prop: 'inventory_quantity', label: '库存数量'},
+                {prop: 'out_amount', label: '出库总金额'},
+                {prop: 'inventory', label: '库存数量'},
             ],
             tableData: [
                 {
@@ -72,22 +72,77 @@
                     commodity_id: '',
                     commodity_type: '',
                     commodity_name: '',
-                    description: '',
-                    unit: '',
                     in_quantity: '',
-                    in_total_amount: '',
+                    in_amount: '',
                     out_quantity: '',
-                    out_total_amount: '',
-                    inventory_quantity: '',
+                    out_amount: '',
+                    inventory: '',
                 },
             ],
         },
-        methods: {}
-        , created: function () {
+        methods: {
+            getInventory: function () {
+                var inventory = [];
+                $.ajax({
+                    type: "POST",
+                    url: "/src/select/Inventory",
+                    async: false,//取消异步请求
+                    data: {},
+                    // contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                    success: function (data) {
+                        var json = JSON.parse(data);
+                        console.log(json);
+                        inventory = json.code;
+                    },
+                    error: function (msg) {
+                        console.log(msg);
+                    }
+                });
 
+                var table = [];
+                inventory.forEach(function (value) {
+                    console.log(value.storehouse);
+                    if (value.storehouse !== 'null') {
+                        table.push(value);
+                    }
+                });
+                return table;
+            },
+            getAddress: function () {
+                var address = [];
+                $.ajax({
+                    type: "POST",
+                    url: "/src/select/Address",
+                    async: false,//取消异步请求
+                    data: {},
+                    // contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                    success: function (data) {
+                        var json = JSON.parse(data);
+                        console.log(json);
+                        address = json.code;
+                    },
+                    error: function (msg) {
+                        console.log(msg);
+                    }
+                });
+                return address;
+            }
+        },
+        created: function () {
         },
         beforeMount: function () {
+            var table = this.getInventory();
+            var address = this.getAddress();
 
+            table.forEach(function (value) {
+                address.forEach(function (value1) {
+                    if (parseInt(value.storehouse) === value1.id) {
+                        value.storehouse = value1.name;
+                    }
+                })
+            });
+
+            this.tableData = table;
         }
     });
 </script>
