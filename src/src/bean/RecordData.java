@@ -9,19 +9,19 @@ public class RecordData {
     private String customer;
     private String supplier;
     private String dealer;
-    private String date;
+    private String date1;
     private String total;
 
     private List<Detail> table;
 
-    public RecordData(String invoice_type, String storehouse_in, String storehouse_out, String customer, String supplier, String dealer, String date, String total, List<Detail> table) {
+    public RecordData(String invoice_type, String storehouse_in, String storehouse_out, String customer, String supplier, String dealer, String date1, String total, List<Detail> table) {
         this.invoice_type = invoice_type;
         this.storehouse_in = storehouse_in;
         this.storehouse_out = storehouse_out;
         this.customer = customer;
         this.supplier = supplier;
         this.dealer = dealer;
-        this.date = date;
+        this.date1 = date1;
         this.total = total;
         this.table = table;
     }
@@ -74,12 +74,12 @@ public class RecordData {
         this.dealer = dealer;
     }
 
-    public String getDate() {
-        return date;
+    public String getDate1() {
+        return date1;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDate1(String date1) {
+        this.date1 = date1;
     }
 
     public String getTotal() {
@@ -107,7 +107,7 @@ public class RecordData {
                 ", customer='" + customer + '\'' +
                 ", supplier='" + supplier + '\'' +
                 ", dealer='" + dealer + '\'' +
-                ", date='" + date + '\'' +
+                ", date='" + date1 + '\'' +
                 ", total='" + total + '\'' +
                 ", table=" + table +
                 '}';

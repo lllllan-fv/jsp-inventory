@@ -63,7 +63,7 @@ public class Record extends HttpServlet {
         sql.append(", ").append(cus.equals("") ? "null" : cus);
         sql.append(", ").append(sup.equals("") ? "null" : sup);
         sql.append(", '").append(recordData.getDealer()).append("'");
-        sql.append(", '").append(recordData.getDate()).append("'");
+        sql.append(", '").append(recordData.getDate1()).append("'");
         sql.append(")");
 
         dbConnection.update(sql.toString());

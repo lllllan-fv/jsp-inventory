@@ -92,7 +92,7 @@
                 customer: '',
                 storehouse_in: '',
                 storehouse_out: '',
-                date: '',
+                date1: '',
                 dealer: '',
                 // 表格数据
                 table: [],
@@ -112,8 +112,8 @@
                 storehouse_out: [
                     {required: true, message: '请选择发货仓库', trigger: 'change'},
                 ],
-                date: [
-                    {required: true, message: '请选择入库日期', trigger: 'change'},
+                date1: [
+                    {type: 'date', required: true, message: '请选择日期', trigger: 'change'}
                 ],
                 dealer: [
                     {required: true, message: '请输入经手人姓名', trigger: 'blur'},
@@ -137,10 +137,12 @@
             },
             // 返回货品对应的类型
             getType: function (id) {
-                if (id !== undefined) {
+                console.log(id);
+                if (id === undefined || id === '' || id === null) {
+                    return '';
+                } else {
                     return commodityMap.get(id.toString()).type;
                 }
-                return '';
             },
             // 返回货品对应的库存
             getInventory: function (id) {
@@ -214,8 +216,12 @@
             submitForm: function (formName) {
                 console.log(this.ruleForm);
 
-                var data = this.ruleForm;
-                data.date = this.getDate(new Date(this.ruleForm.date));
+                var tmp = {};
+                $.extend(true, tmp, this.ruleForm);
+                var data = tmp;
+                if (data.date1 !== '' || data.date1 !== undefined || data.date1 !== null) {
+                    data.date1 = this.getDate(new Date(data.date1));
+                }
 
                 var status = -2;
                 var message = '出错了，操作失败';
@@ -274,7 +280,7 @@
                     // contentType: "application/x-www-form-urlencoded; charset=utf-8",
                     success: function (data) {
                         var json = JSON.parse(data);
-                        console.log(json);
+                        // console.log(json);
                         addresses = json.code;
                     },
                     error: function (msg) {
@@ -295,6 +301,7 @@
                 this.storehouses = storehouses;
                 this.suppliers = suppliers;
                 this.customers = customers;
+
             },
             initCommodityData: function () {
                 var commodities = [];
@@ -307,7 +314,7 @@
                     // contentType: "application/x-www-form-urlencoded; charset=utf-8",
                     success: function (data) {
                         var json = JSON.parse(data);
-                        console.log(json);
+                        // console.log(json);
                         commodities = json.code;
                     },
                     error: function (msg) {
@@ -322,6 +329,10 @@
                     commodityMap.set(item.id, {name: item.name, type: item.type_name});
                 });
                 this.commodities = data;
+
+                console.log("commodity");
+                console.log(commodities);
+                console.log(commodityMap);
             },
             initInventoryData: function () {
                 var inventory = [];
@@ -334,7 +345,7 @@
                     // contentType: "application/x-www-form-urlencoded; charset=utf-8",
                     success: function (data) {
                         var json = JSON.parse(data);
-                        console.log(json);
+                        // console.log(json);
                         inventory = json.code;
                     },
                     error: function (msg) {
@@ -345,6 +356,9 @@
                 inventory.forEach(function (item) {
                     inventoryMap.set(item.storehouse + '-' + item.commodity_id, item.inventory);
                 })
+
+                console.log("inventory");
+                console.log(inventory);
             }
         },
         computed: {

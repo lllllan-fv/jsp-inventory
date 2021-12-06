@@ -23,14 +23,14 @@
                          label="货品编码"
                          width="180">
             <template slot-scope="scope">
-                {{ scope.row.commodity[0] }}
+                {{ scope.row.commodity }}
             </template>
         </el-table-column>
         <el-table-column prop="commodity_type"
                          label="货品类别"
                          width="180">
             <template slot-scope="scope">
-                {{ getType(scope.row.commodity[0]) }}
+                {{ getType(scope.row.commodity) }}
             </template>
         </el-table-column>
         <el-table-column prop="commodity_name"
@@ -68,7 +68,7 @@
         <el-table-column prop="inventory"
                          label="库存数量">
             <template slot-scope="scope">
-                {{ getInventory(scope.row.commodity[0]) }}
+                {{ getInventory(scope.row.commodity) }}
             </template>
         </el-table-column>
         <el-table-column label="数量">

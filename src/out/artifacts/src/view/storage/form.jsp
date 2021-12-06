@@ -101,8 +101,8 @@
 
     <el-row>
         <el-col span="8">
-            <el-form-item :label="task.substring(2, 4) + '日期'" prop="date">
-                <el-date-picker v-model="ruleForm.date"
+            <el-form-item :label="task.substring(2, 4) + '日期'" prop="date1">
+                <el-date-picker v-model="ruleForm.date1"
                                 type="date"
                                 placeholder="请选择"
                                 style="width: 100%;">
