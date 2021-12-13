@@ -8,10 +8,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <template>
-    <el-table :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
-              stripe border
-              height="100%"
-              style="width: 100%; border-radius: 10px">
+    <el-table
+            :data="tableData.filter(data => !search || data.commodity_name.toLowerCase().includes(search.toLowerCase()))"
+            stripe border
+            height="100%"
+            style="width: 100%; border-radius: 10px">
 
         <template v-for="item in tableHeader">
             <el-table-column :prop="item.prop"

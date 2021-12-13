@@ -39,7 +39,7 @@ public class Address extends HttpServlet {
 
         PrintWriter printWriter = response.getWriter();
         if (maps.size() > 0) {
-            String json = "{ \"status\": 0, \"message\": " + group + "\"已存在\"}";
+            String json = "{ \"status\": 0, \"message\": \"" + group + "已存在\"}";
             printWriter.print(json);
         } else {
             if (group.equals("仓库")) {

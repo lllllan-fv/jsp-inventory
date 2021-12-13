@@ -113,6 +113,7 @@
                             },
                             // contentType: "application/x-www-form-urlencoded; charset=utf-8",
                             success: function (data) {
+                                console.log(data);
                                 var json = JSON.parse(data);
                                 status = json.status;
                                 message = json.message;
